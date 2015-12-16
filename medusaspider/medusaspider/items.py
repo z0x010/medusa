@@ -12,3 +12,13 @@ class MedusaspiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class NewsItem(scrapy.Item):
+    title = scrapy.Field()
+    url = scrapy.Field()
+    src = scrapy.Field()
+    cmt = scrapy.Field()
+    time = scrapy.Field()
+    img = scrapy.Field()
+    pass

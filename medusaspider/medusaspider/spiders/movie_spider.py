@@ -12,8 +12,7 @@ class NewsSpider(scrapy.spiders.Spider):
     ]
 
     def parse(self, response):
-        print '-----------------------------------------------------------------------------------'
-        print response
+        # print response
         # print response.body
         # print dir(response)
         # print 'response.body', response.body
@@ -31,9 +30,7 @@ class NewsSpider(scrapy.spiders.Spider):
         # print 'response.url', response.url
         # print 'response.urljoin', response.urljoin
         # print 'response.xpath', response.xpath
-        print '-----------------------------------------------------------------------------------'
         for selector in response.xpath('//ol[@class="grid_view"]/li/div[@class="item"]'):
-            # print selector
             rank = selector.xpath('div[@class="pic"]/em/text()').extract()[0]
             pic = selector.xpath('div[@class="pic"]/a/img/@src').extract()[0]
             title_list = selector.xpath('div[@class="info"]/div[@class="hd"]/a/span[@class="title"]/text()').extract()
@@ -49,17 +46,14 @@ class NewsSpider(scrapy.spiders.Spider):
             comment = int(re.findall('\d+', comment_span)[0])
             quote = selector.xpath('div[@class="info"]/div[@class="bd"]/p[@class="quote"]/span[@class="inq"]/text()').extract()[0].encode('utf-8')
 
-            print rank
-            print pic
-            print title
-            print url
-            print desc
-            print star
-            print rate
-            print comment
-            print quote
-
-            pass
-        print '-----------------------------------------------------------------------------------'
-        pass
-    pass
+            item = MovieItem()
+            item['rank'] = rank
+            item['pic'] = pic
+            item['title'] = title
+            item['url'] = url
+            item['desc'] = desc
+            item['star'] = star
+            item['rate'] = rate
+            item['comment'] = comment
+            item['quote'] = quote
+            yield item

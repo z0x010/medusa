@@ -22,3 +22,16 @@ class NewsItem(scrapy.Item):
     time = scrapy.Field()
     img = scrapy.Field()
     pass
+
+
+class MovieItem(scrapy.Item):
+    rank = scrapy.Field()
+    pic = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
+    desc = scrapy.Field()
+    star = scrapy.Field()
+    rate = scrapy.Field()
+    comment = scrapy.Field()
+    quote = scrapy.Field()
+    pass

@@ -14,16 +14,6 @@ class MedusaspiderItem(scrapy.Item):
     pass
 
 
-class NewsItem(scrapy.Item):
-    title = scrapy.Field()
-    url = scrapy.Field()
-    src = scrapy.Field()
-    cmt = scrapy.Field()
-    time = scrapy.Field()
-    img = scrapy.Field()
-    pass
-
-
 class MovieItem(scrapy.Item):
     rank = scrapy.Field()
     pic = scrapy.Field()

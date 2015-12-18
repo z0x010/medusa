@@ -5,7 +5,7 @@ import re
 from medusaspider.items import MovieItem
 
 
-class NewsSpider(scrapy.spiders.Spider):
+class MovieSpider(scrapy.spiders.Spider):
     name = 'movie_spider'
     start_urls = [
         "http://movie.douban.com/top250",

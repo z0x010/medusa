@@ -59,3 +59,13 @@ class MovieSpider(scrapy.spiders.Spider):
             item['quote'] = quote
             print '↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ (in parse)'
             yield item
+
+        # next page
+        print '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+        next_page = response.xpath('//span[@class="next"]/a/@href').extract()
+        # [u'?start=200&filter=']
+        if next_page:
+            next_url = response.urljoin(next_page[0])
+            # http://movie.douban.com/top250?start=25&filter=
+            yield scrapy.Request(next_url, self.parse)
+        print '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'

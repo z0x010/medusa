@@ -1,5 +1,10 @@
 # coding: utf-8
 
+"""
+usage:
+$ scrapy crawl movie_spider -o db.json
+"""
+
 import scrapy
 import re
 from medusaspider.items import MovieItem

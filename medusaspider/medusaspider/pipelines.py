@@ -20,7 +20,7 @@ class MovieSpiderPipeline(object):
         或是抛出 DropItem 异常，被丢弃的item将不会被之后的pipeline组件所处理。
         """
         print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
-        print item
+        # print item
         print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
         return item
 

@@ -31,6 +31,7 @@ class MovieSpider(scrapy.spiders.Spider):
         # print 'response.urljoin', response.urljoin
         # print 'response.xpath', response.xpath
         for selector in response.xpath('//ol[@class="grid_view"]/li/div[@class="item"]'):
+            print '↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ (in parse)'
             rank = selector.xpath('div[@class="pic"]/em/text()').extract()[0]
             pic = selector.xpath('div[@class="pic"]/a/img/@src').extract()[0]
             title_list = selector.xpath('div[@class="info"]/div[@class="hd"]/a/span[@class="title"]/text()').extract()
@@ -56,4 +57,5 @@ class MovieSpider(scrapy.spiders.Spider):
             item['rate'] = rate
             item['comment'] = comment
             item['quote'] = quote
+            print '↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ (in parse)'
             yield item

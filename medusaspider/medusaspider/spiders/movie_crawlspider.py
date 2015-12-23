@@ -49,7 +49,10 @@ class MovieCrawlSpider(scrapy.spiders.CrawlSpider):
         So if you override the parse method, the crawl spider will no longer work.
         """
         # [1][extract data from the page]
-        for selector in response.selector.xpath('//ol[@class="grid_view"]/li/div[@class="item"]'):
+        # (A)(shortcut)
+        # for selector in response.selector.xpath('//ol[@class="grid_view"]/li/div[@class="item"]'):
+        # (B)(construct selector from response)
+        for selector in scrapy.selector.Selector(response=response).xpath('//ol[@class="grid_view"]/li/div[@class="item"]'):
             rank = selector.xpath('div[@class="pic"]/em/text()').extract()[0]
             pic = selector.xpath('div[@class="pic"]/a/img/@src').extract()[0]
             title_list = selector.xpath('div[@class="info"]/div[@class="hd"]/a/span[@class="title"]/text()').extract()

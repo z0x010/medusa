@@ -11,21 +11,61 @@ class MedusaspiderPipeline(object):
         return item
 
 
+"""
+After an item has been scraped by a spider, it is sent to the Item Pipeline
+which processes it through several components that are executed sequentially.
+"""
 from scrapy.exceptions import DropItem
 class MovieSpiderPipeline(object):
+    """
+    Each item pipeline component (sometimes referred as just “Item Pipeline”) is a Python class
+    that implements a simple method: process_item(self, item, spider)
+    They receive an item and perform an action over it,
+    also deciding if the item should continue through the pipeline or be dropped and no longer processed.
+    """
+    # def process_item(self, item, spider):
+    #     """
+    #     This method is called for every item pipeline component and must
+    #     either:
+    #         return a dict with data, Item (or any descendant class) object
+    #     or:
+    #         raise a DropItem exception.
+    #         Dropped items are no longer processed by further pipeline components.
+    #     """
+    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
+    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
+    #     # print item
+    #     # print spider
+    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
+    #     return item
+
     def process_item(self, item, spider):
         """
-        每个item pipeline组件都需要调用该方法，
-        这个方法必须返回一个 Item (或任何继承类)对象，
-        或是抛出 DropItem 异常，被丢弃的item将不会被之后的pipeline组件所处理。
+        This method is called for every item pipeline component and must
+        either:
+            return a dict with data, Item (or any descendant class) object
+        or:
+            raise a DropItem exception.
+            Dropped items are no longer processed by further pipeline components.
         """
-        print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
-        # print item
-        print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
-        return item
+        print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
+        # 只取 rank 值小于等于100的 item
+        if int(item['rank']) <= 100:
+            print '[++++++++++][selected]', item['rank']
+            return item
+        else:
+            print '[----------][dropped]', item['rank']
+            raise DropItem("missing rank in %s" % item)
 
     @classmethod
     def from_crawler(cls, crawler):
-        return cls()
+        """
+        If present, this classmethod is called to create a pipeline instance from a Crawler.
+        It must return a new instance of the pipeline.
+        Crawler object provides access to all Scrapy core components like settings and signals;
+        it is a way for pipeline to access them and hook its functionality into Scrapy.
 
-    pass
+        Parameters:
+        crawler (Crawler object) – crawler that uses this pipeline
+        """
+        return cls()

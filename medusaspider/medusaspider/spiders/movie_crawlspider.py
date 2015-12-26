@@ -85,6 +85,15 @@ class MovieCrawlSpider(scrapy.spiders.CrawlSpider):
             item['rate'] = rate
             item['comment'] = comment
             item['quote'] = quote
+            # print 'rank', rank
+            # print 'pic', pic
+            # print 'title', title
+            # print 'url', url
+            # print 'desc', desc
+            # print 'star', star
+            # print 'rate', rate
+            # print 'comment', comment
+            # print 'quote', quote
             yield item
         # [2][extract links from the page, follow them, and then extract data from the pages]
         next_page = response.xpath('//span[@class="next"]/a/@href').extract()  # [u'?start=200&filter=']

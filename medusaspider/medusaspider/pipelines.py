@@ -5,6 +5,18 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
+# ------------------------------------------------------------------------------------
+# 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
+import sys
+sys.path.append('/home/workspace/medusa')
+# 设置 Django settings
+from django.core.management import setup_environ
+from medusaweb import settings as django_settings
+setup_environ(django_settings)
+# 使用 Django ORM
+from medusaweb.spider.models import Movie
+# <class 'medusaweb.spider.models.Movie'>
+# ------------------------------------------------------------------------------------
 
 class MedusaspiderPipeline(object):
     def process_item(self, item, spider):
@@ -25,16 +37,20 @@ class MovieSpiderPipeline(object):
     """
 
     def __init__(self):
-        # 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
-        import sys
-        sys.path.append('/home/workspace/medusa')
-        # 设置 Django settings
-        from django.core.management import setup_environ
-        from medusaweb import settings as django_settings
-        setup_environ(django_settings)
-        # 使用 Django ORM
-        from medusaweb.spider.models import Movie
-        print Movie  # <class 'medusaweb.spider.models.Movie'>
+        # ------------------------------------------------------------------------------------
+        # # 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
+        # import sys
+        # sys.path.append('/home/workspace/medusa')
+        # # 设置 Django settings
+        # from django.core.management import setup_environ
+        # from medusaweb import settings as django_settings
+        # setup_environ(django_settings)
+        # # 使用 Django ORM
+        # from medusaweb.spider.models import Movie
+        # <class 'medusaweb.spider.models.Movie'>
+        # self.model = Movie
+        # ------------------------------------------------------------------------------------
+        pass
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -54,6 +70,7 @@ class MovieSpiderPipeline(object):
         This method is called when the spider is opened.
             Parameters:	spider (Spider object) – the spider which was opened
         """
+        print '[open_spider]', Movie.objects.count()
         pass
 
     def close_spider(self, spider):
@@ -61,6 +78,7 @@ class MovieSpiderPipeline(object):
         This method is called when the spider is closed.
             Parameters:	spider (Spider object) – the spider which was closed
         """
+        print '[close_spider]', Movie.objects.count()
         pass
 
     def process_item(self, item, spider):
@@ -74,11 +92,16 @@ class MovieSpiderPipeline(object):
         """
         print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
         # 只取 rank 值小于等于100的 item
-        if int(item['rank']) <= 100:
+        if int(item['rank']) <= 200:
             print '[++++++++++][selected]', item['rank']
             print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
             # print item
-            # print spider
+            # print dict(item)
+            # (1)
+            # movie = Movie(**item)
+            # movie.save()
+            # (2)
+            Movie.objects.create(**item)
             print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
             return item
         else:

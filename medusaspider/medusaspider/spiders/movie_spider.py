@@ -19,10 +19,12 @@ class MovieSpider(scrapy.spiders.Spider):
         [2] how to follow links,
         [3] how to parse the contents of pages to extract items.
     """
+
     # A string which defines the name for this spider.
     # The spider name is how the spider is located (and instantiated) by Scrapy, so it must be unique.
     # This is the most important spider attribute and it’s required.
     name = 'movie_spider'
+
     # A list of URLs where the spider will begin to crawl from, when no particular URLs are specified.
     # So, the first pages downloaded will be those listed here.
     # The subsequent URLs will be generated successively from data contained in the start URLs.

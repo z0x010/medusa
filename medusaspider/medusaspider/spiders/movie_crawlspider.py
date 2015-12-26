@@ -13,16 +13,24 @@ from medusaspider.items import MovieItem
 
 class MovieCrawlSpider(scrapy.spiders.CrawlSpider):
     """
+    scrapy.spiders.CrawlSpider
+        This is the most commonly used spider for crawling regular websites,
+        as it provides a convenient mechanism for following links by defining a set of rules.
+        It’s generic enough for several cases, you can start from it and override it
+        as needed for more custom functionality, or just implement your own spider.
     """
+
     name = 'movie_crawlspider'
+
     start_urls = [
         "http://movie.douban.com/top250",
     ]
-    """
-    a list of one (or more) Rule objects.
-    Each Rule defines a certain behaviour for crawling the site.
-    If multiple rules match the same link, the first one will be used, according to the order they’re defined in this attribute.
-    """
+
+    # rules:
+    # a list of one (or more) Rule objects.
+    # Each Rule defines a certain behaviour for crawling the site.
+    # If multiple rules match the same link, the first one will be used,
+    # according to the order they’re defined in this attribute.
     rules = [
         scrapy.spiders.Rule(
             link_extractor=scrapy.linkextractors.LinkExtractor(
@@ -82,4 +90,4 @@ class MovieCrawlSpider(scrapy.spiders.CrawlSpider):
         next_page = response.xpath('//span[@class="next"]/a/@href').extract()  # [u'?start=200&filter=']
         if next_page:
             next_url = response.urljoin(next_page[0])  # http://movie.douban.com/top250?start=25&filter=
-            yield scrapy.Request(next_url, self.parse)
+            yield scrapy.Request(next_url, self.parse_item)

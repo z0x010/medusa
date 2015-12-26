@@ -23,21 +23,45 @@ class MovieSpiderPipeline(object):
     They receive an item and perform an action over it,
     also deciding if the item should continue through the pipeline or be dropped and no longer processed.
     """
-    # def process_item(self, item, spider):
-    #     """
-    #     This method is called for every item pipeline component and must
-    #     either:
-    #         return a dict with data, Item (or any descendant class) object
-    #     or:
-    #         raise a DropItem exception.
-    #         Dropped items are no longer processed by further pipeline components.
-    #     """
-    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
-    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
-    #     # print item
-    #     # print spider
-    #     print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
-    #     return item
+
+    def __init__(self):
+        # 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
+        import sys
+        sys.path.append('/home/workspace/medusa')
+        # 设置 Django settings
+        from django.core.management import setup_environ
+        from medusaweb import settings as django_settings
+        setup_environ(django_settings)
+        # 使用 Django ORM
+        from medusaweb.spider.models import Movie
+        print Movie  # <class 'medusaweb.spider.models.Movie'>
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        """
+        If present, this classmethod is called to create a pipeline instance from a Crawler.
+        It must return a new instance of the pipeline.
+        Crawler object provides access to all Scrapy core components like settings and signals;
+        it is a way for pipeline to access them and hook its functionality into Scrapy.
+
+        Parameters:
+        crawler (Crawler object) – crawler that uses this pipeline
+        """
+        return cls()
+
+    def open_spider(self, spider):
+        """
+        This method is called when the spider is opened.
+            Parameters:	spider (Spider object) – the spider which was opened
+        """
+        pass
+
+    def close_spider(self, spider):
+        """
+        This method is called when the spider is closed.
+            Parameters:	spider (Spider object) – the spider which was closed
+        """
+        pass
 
     def process_item(self, item, spider):
         """
@@ -52,20 +76,11 @@ class MovieSpiderPipeline(object):
         # 只取 rank 值小于等于100的 item
         if int(item['rank']) <= 100:
             print '[++++++++++][selected]', item['rank']
+            print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
+            # print item
+            # print spider
+            print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][stop]'
             return item
         else:
             print '[----------][dropped]', item['rank']
             raise DropItem("missing rank in %s" % item)
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        """
-        If present, this classmethod is called to create a pipeline instance from a Crawler.
-        It must return a new instance of the pipeline.
-        Crawler object provides access to all Scrapy core components like settings and signals;
-        it is a way for pipeline to access them and hook its functionality into Scrapy.
-
-        Parameters:
-        crawler (Crawler object) – crawler that uses this pipeline
-        """
-        return cls()

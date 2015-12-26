@@ -44,5 +44,6 @@ class MovieView(View):
     """
     def get(self, request, *args, **kwargs):
         context = {}
-        context.update(movies=Movie.objects.all())
+        # context.update(movies=Movie.objects.all())
+        context.update(movies=Movie.objects.order_by('rank'))
         return coffin_render(request, 'movie.html', context)

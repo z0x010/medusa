@@ -7,8 +7,35 @@
 
 {% block body %}
 
-    {% for movie in movies %}
-        {{ movie.title }}
-    {% endfor %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>排名</th>
+            <th>图片</th>
+            <th>标题</th>
+            <th>链接</th>
+            <th>详情</th>
+            <th>星级</th>
+            <th>评分</th>
+            <th>评论</th>
+            <th>描述</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+        <tr>
+            <td>{{ movie.rank }}</td>
+            <td>{{ movie.pic }}</td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.url }}</td>
+            <td>{{ movie.desc }}</td>
+            <td>{{ movie.star }}</td>
+            <td>{{ movie.rate }}</td>
+            <td>{{ movie.comment }}</td>
+            <td>{{ movie.quote }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

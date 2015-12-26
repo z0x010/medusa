@@ -20,12 +20,15 @@
     <!-- echarts -->
     <script src="/static/echarts/echarts-all.js"></script>
 
-
-    {# A block tag doesn’t just provide a hole to fill – #}
-    {# it also defines the content that fills the hole in the parent. #}
-    {% block head %}{% endblock %}
+    <div class="container-fluid">
+        {# A block tag doesn’t just provide a hole to fill – #}
+        {# it also defines the content that fills the hole in the parent. #}
+        {% block head %}{% endblock %}
+    </div>
 </head>
 <body>
-    {% block body %}{% endblock %}
+    <div class="container-fluid">
+        {% block body %}{% endblock %}
+    </div>
 </body>
 </html>

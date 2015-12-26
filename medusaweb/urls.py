@@ -25,4 +25,6 @@ urlpatterns += patterns(
     '',
     # Jinja2 模板
     url(r'^jinja2/$', views.Jinja2View.as_view(), name='jinja2'),
+    # 豆瓣电影 TOP250
+    url(r'^movie/$', views.MovieView.as_view(), name='movie'),
 )

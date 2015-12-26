@@ -34,3 +34,15 @@ class Jinja2View(View):
         """
         print '------------------------------------------------------------'
         return coffin_render(request, 'jinja2.html', context)
+
+
+
+from spider.models import Movie
+class MovieView(View):
+    """
+    豆瓣电影 TOP250
+    """
+    def get(self, request, *args, **kwargs):
+        context = {}
+        context.update(movies=Movie.objects.all())
+        return coffin_render(request, 'movie.html', context)

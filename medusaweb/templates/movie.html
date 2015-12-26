@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Movie Top 250</title>
+    <h3>Movie Top 250</h3>
+{% endblock %}
+
+{% block body %}
+
+    {% for movie in movies %}
+        {{ movie.title }}
+    {% endfor %}
+
+{% endblock %}

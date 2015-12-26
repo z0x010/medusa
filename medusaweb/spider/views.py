@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 from django.core.files.uploadedfile import UploadedFile, InMemoryUploadedFile, TemporaryUploadedFile
 from django.core.files import File
 from django.core.files.images import ImageFile
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 from coffin.shortcuts import render as coffin_render
@@ -44,6 +45,21 @@ class MovieView(View):
     """
     def get(self, request, *args, **kwargs):
         context = {}
-        # context.update(movies=Movie.objects.all())
-        context.update(movies=Movie.objects.order_by('rank'))
+        # 数据来自 spider
+        movies = Movie.objects.order_by('rank')
+        # 需要分页
+        paginator = Paginator(movies, 10)
+        page = request.GET.get('page', 1)
+        try:
+            pager = paginator.page(page)
+        except PageNotAnInteger:
+            pager = paginator.page(1)
+        except EmptyPage:
+            pager = paginator.page(paginator.num_pages)
+            pass
+        # 分页片段中使用 pager.queries 达到在翻页时带着查询参数的目的
+        pager.queries = "keyword=%s" % (request.GET.get('keyword') or '',)
+        # 通用的分页片段需要将 object_list 统一命名为: page
+        # 模板中使用 page 来访问对象
+        context['page'] = pager
         return coffin_render(request, 'movie.html', context)

@@ -22,7 +22,8 @@
         </tr>
     </thead>
     <tbody>
-        {% for movie in movies %}
+        {# {% for movie in movies %} #}
+        {% for movie in page.object_list %}
         <tr>
             <td>{{ movie.rank }}</td>
             <td>{{ movie.pic }}</td>
@@ -37,5 +38,7 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% include "pagination_jinja.html" %}
 
 {% endblock %}

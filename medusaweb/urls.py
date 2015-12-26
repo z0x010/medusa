@@ -1,10 +1,13 @@
+# coding: utf-8
+
 from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'medusaweb.views.home', name='home'),
     # url(r'^medusaweb/', include('medusaweb.foo.urls')),
@@ -14,4 +17,12 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+)
+
+
+from spider import views
+urlpatterns += patterns(
+    '',
+    # Jinja2 模板
+    url(r'^jinja2/$', views.Jinja2View.as_view(), name='jinja2'),
 )

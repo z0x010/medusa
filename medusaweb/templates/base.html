@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap-theme.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/static/bootstrap/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/static/bootstrap/bootstrap.min.js"></script>
+
+    <!-- jsTree -->
+    <link rel="stylesheet" href="/static/jstree/themes/default/style.min.css" />
+    <script src="/static/jstree/jquery.min.js"></script>
+    <script src="/static/jstree/jstree.min.js"></script>
+
+    <!-- echarts -->
+    <script src="/static/echarts/echarts-all.js"></script>
+
+
+    {# A block tag doesn’t just provide a hole to fill – #}
+    {# it also defines the content that fills the hole in the parent. #}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>

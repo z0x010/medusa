@@ -6,7 +6,7 @@ import random
 
 from django.conf import settings
 from django.http import HttpResponse
-from django.template import Template,Context
+from django.template import Template, Context
 from django.template.loader import get_template
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -25,17 +25,12 @@ class Jinja2View(View):
     """
     def get(self, request, *args, **kwargs):
         context = {}
-        print '------------------------------------------------------------'
         context.update(coffin_version='0.4.0')
         context.update(none_value=None)
-        print context
+        # print context
         # {'coffin_version': '0.4.0', 'none_value': None}
-        """
-        跟 Django 模板不同，Jinja2 模板会将 None 显示为字符串 "None"
-        """
-        print '------------------------------------------------------------'
+        # 跟 Django 模板不同，Jinja2 模板会将 None 显示为字符串 "None"
         return coffin_render(request, 'jinja2.html', context)
-
 
 
 from spider.models import Movie
@@ -59,7 +54,7 @@ class MovieView(View):
             pass
         # 分页片段中使用 pager.queries 达到在翻页时带着查询参数的目的
         pager.queries = "keyword=%s" % (request.GET.get('keyword') or '',)
-        # 通用的分页片段需要将 object_list 统一命名为: page
+        # 通用的分页片段(pagination_jinja.html)需要将 object_list 统一命名为: page
         # 模板中使用 page 来访问对象
         context['page'] = pager
         return coffin_render(request, 'movie.html', context)

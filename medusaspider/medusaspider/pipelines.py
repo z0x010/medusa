@@ -92,7 +92,7 @@ class MovieSpiderPipeline(object):
         """
         print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
         # 只取 rank 值小于等于100的 item
-        if int(item['rank']) <= 200:
+        if int(item['rank']) <= 250:
             print '[++++++++++][selected]', item['rank']
             print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
             # print item

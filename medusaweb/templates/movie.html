@@ -26,7 +26,9 @@
         {% for movie in page.object_list %}
         <tr>
             <td>{{ movie.rank }}</td>
-            <td>{{ movie.pic }}</td>
+            <td>
+                <img src="{{ movie.pic }}">
+            </td>
             <td>{{ movie.title }}</td>
             <td>{{ movie.url }}</td>
             <td>{{ movie.desc }}</td>

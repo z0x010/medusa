@@ -91,12 +91,12 @@ class MovieSpiderPipeline(object):
             Dropped items are no longer processed by further pipeline components.
         """
         print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in process_item()'
-        # 只取 rank 值小于等于100的 item
+        # 只取 rank 值小于等于指定数字的 item
         if int(item['rank']) <= 250:
             print '[++++++++++][selected]', item['rank']
-            print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
             # print item
             # print dict(item)
+            print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [Write item to DB][start]'
             # (1)
             # movie = Movie(**item)
             # movie.save()

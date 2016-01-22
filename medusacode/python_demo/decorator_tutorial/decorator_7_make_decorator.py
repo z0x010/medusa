@@ -157,4 +157,3 @@ decorated_function_with_arguments(c2, "Howard")
 # You can't dynamically set the arguments afterwards.
 # When you do "import x", the function is already decorated, so you can't change anything.
 print '--------------------------------------------------------------------------------------------------------------'
-print '--------------------------------------------------------------------------------------------------------------'

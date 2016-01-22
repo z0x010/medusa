@@ -6,7 +6,7 @@ def method_friendly_decorator(method_to_decorate):
     def wrapper(self, lie):
         # very friendly, decrease age even more :-)
         lie = lie - 3
-        return method_to_decorate(self, lie)
+        method_to_decorate(self, lie)
     return wrapper
 
 
@@ -22,3 +22,7 @@ class Lucy(object):
 l = Lucy()
 l.sayYourAge(-3)
 # outputs: I am 26, what did you think?
+
+
+
+

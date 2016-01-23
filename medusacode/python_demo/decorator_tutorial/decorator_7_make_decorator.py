@@ -145,7 +145,7 @@ def decorated_function_with_arguments(function_arg1, function_arg2):
 
 decorated_function_with_arguments(c2, "Howard")
 # outputs:
-# I am the wrapper around the decorated function. I can access all the variables
+# I am the wrapper around the decorated function! I am called when you call the decorated function. I can access all the variables
 # 	- from the decorator: Leonard Penny
 # 	- from the function call: Leslie Howard
 # Then I can pass them to the decorated function

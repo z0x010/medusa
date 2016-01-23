@@ -50,8 +50,7 @@ from pyelasticsearch import ElasticSearch
 es = ElasticSearch('http://192.168.100.100:9200')
 # <pyelasticsearch.client.ElasticSearch object at 0x1c86a90>
 
-print '------------------------------------------------------------------------------------'
-################################################################################ [1] index
+print '============================================================================ [1] index'
 # index = es.bulk_index(index='douban', doc_type='movie', docs=docs_movies)
 # print index
 # {
@@ -88,14 +87,14 @@ print '-------------------------------------------------------------------------
 #   u'took': 1173
 # }
 
-################################################################################ [2] refresh
+print '============================================================================ [2] refresh'
 # refresh = es.refresh(index='douban')
 # print refresh
 # {u'_shards': {u'successful': 5, u'failed': 0, u'total': 10}}
 
-################################################################################ [3] get
-get = es.get(index='douban', doc_type='movie', id=455)
-print get
+print '============================================================================ [3] get'
+# get = es.get(index='douban', doc_type='movie', id=455)
+# print get
 # {
 #   u'_type': u'movie',
 #   u'_source': {
@@ -114,4 +113,25 @@ print get
 #   u'found': True,
 #   u'_id': u'455'
 # }
-print '------------------------------------------------------------------------------------'
+
+print '============================================================================ [4] search'
+"""
+20160123 need to be studied ...
+"""
+search = es.search(
+    index='douban',
+    doc_type='movie',
+    query={
+        'query': {
+            "match_all": {}
+        },
+    },
+)
+print search
+
+print '============================================================================ [5] delete index'
+# delete = es.delete_index('douban')
+# print delete
+# {u'acknowledged': True}
+print '============================================================================'
+

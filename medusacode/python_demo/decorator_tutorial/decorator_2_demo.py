@@ -19,6 +19,7 @@ def ingredients(func):
 def sandwich(food="--ham--"):
     print food
 
+
 sandwich_1 = bread(ingredients(sandwich))
 sandwich_1()
 # outputs:

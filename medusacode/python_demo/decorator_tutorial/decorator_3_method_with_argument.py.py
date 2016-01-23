@@ -19,6 +19,7 @@ class Lucy(object):
     def sayYourAge(self, lie):
         print "I am %s, what did you think?" % (self.age + lie)
 
+
 l = Lucy()
 l.sayYourAge(-3)
 # outputs: I am 26, what did you think?

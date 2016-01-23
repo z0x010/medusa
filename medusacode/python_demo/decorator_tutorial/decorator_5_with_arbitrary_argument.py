@@ -17,6 +17,7 @@ def a_decorator_passing_arbitrary_arguments(function_to_decorate):
         function_to_decorate(*args, **kwargs)
     return a_wrapper_accepting_arbitrary_arguments
 
+
 @a_decorator_passing_arbitrary_arguments
 def function_with_no_argument():
     print "Python is cool, no argument here."
@@ -28,16 +29,18 @@ function_with_no_argument()
 # {}
 # Python is cool, no argument here.
 
+
 @a_decorator_passing_arbitrary_arguments
 def function_with_arguments(a, b, c):
     print a, b, c
 
-function_with_arguments(1,2,3)
+function_with_arguments(1, 2, 3)
 # outputs
 # Do I have args?:
 # (1, 2, 3)
 # {}
 # 1 2 3
+
 
 @a_decorator_passing_arbitrary_arguments
 def function_with_named_arguments(a, b, c, platypus="Why not ?"):

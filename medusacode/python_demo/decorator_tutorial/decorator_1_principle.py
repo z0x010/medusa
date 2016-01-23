@@ -27,6 +27,7 @@ def my_shiny_new_decorator(a_function_to_decorate):
     # and after. It’s ready to use!
     return the_wrapper_around_the_original_function
 
+
 # Now imagine you create a function you don't want to ever touch again.
 def a_stand_alone_function():
     print "I am a stand alone function, don't you dare modify me"
@@ -41,6 +42,7 @@ a_stand_alone_function_decorated()
 # Before the function runs
 # I am a stand alone function, don't you dare modify me
 # After the function runs
+
 
 @my_shiny_new_decorator
 def another_stand_alone_function():

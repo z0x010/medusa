@@ -2,6 +2,9 @@
 # coding:utf-8
 
 
+import json
+
+
 # ------------------------------------------------------------------------------------
 # 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
 import sys
@@ -14,7 +17,7 @@ setup_environ(django_settings)
 from medusaweb.spider.models import Movie
 # <class 'medusaweb.spider.models.Movie'>
 # ------------------------------------------------------------------------------------
-
+# 读 django 数据库, 获取模型数据
 docs_movies = Movie.objects.all().values()
 # print docs_movies
 # [
@@ -45,78 +48,90 @@ docs_movies = Movie.objects.all().values()
 #   ...
 # ]
 # ------------------------------------------------------------------------------------
-
+print '============================================================================ ElasticSearch'
 from pyelasticsearch import ElasticSearch
 es = ElasticSearch('http://192.168.100.100:9200')
 # <pyelasticsearch.client.ElasticSearch object at 0x1c86a90>
 
-print '============================================================================ [1] index'
+print '============================================================================ [1] create index'
 # index = es.bulk_index(index='douban', doc_type='movie', docs=docs_movies)
-# print index
+# print json.JSONEncoder(indent=4).encode(index)
 # {
-#   u'items': [
-#     {
-#       u'index': {
-#         u'status': 200,
-#         u'_type': u'movie',
-#         u'_id': u'451',
-#         u'_version': 2,
-#         u'_index': u'douban'
-#       }
-#     },
-#     {
-#       u'index': {
-#         u'status': 200,
-#         u'_type': u'movie',
-#         u'_id': u'452',
-#         u'_version': 2,
-#         u'_index': u'douban'
-#       }
-#     },
-#     {
-#       u'index': {
-#         u'status': 200,
-#         u'_type': u'movie',
-#         u'_id': u'453',
-#         u'_version': 2,
-#         u'_index': u'douban'
-#       }
-#     },
-#   ],
-#   u'errors': False,
-#   u'took': 1173
+#     "items": [
+#         {
+#             "index": {
+#                 "status": 201,
+#                 "_type": "movie",
+#                 "_id": "451",
+#                 "_version": 1,
+#                 "_index": "douban"
+#             }
+#         },
+#         {
+#             "index": {
+#                 "status": 201,
+#                 "_type": "movie",
+#                 "_id": "452",
+#                 "_version": 1,
+#                 "_index": "douban"
+#             }
+#         },
+#         {
+#             "index": {
+#                 "status": 201,
+#                 "_type": "movie",
+#                 "_id": "453",
+#                 "_version": 1,
+#                 "_index": "douban"
+#             }
+#         },
+#         ...
+#     ],
+#     "errors": false,
+#     "took": 3557
 # }
-
-print '============================================================================ [2] refresh'
+print '============================================================================ [2] delete index'
+# delete = es.delete_index('douban')
+# print json.JSONEncoder(indent=4).encode(delete)
+# {
+#     "acknowledged": true
+# }
+print '============================================================================ [3] refresh index'
 # refresh = es.refresh(index='douban')
-# print refresh
-# {u'_shards': {u'successful': 5, u'failed': 0, u'total': 10}}
-
-print '============================================================================ [3] get'
-# get = es.get(index='douban', doc_type='movie', id=455)
-# print get
+# print json.JSONEncoder(indent=4).encode(refresh)
 # {
-#   u'_type': u'movie',
-#   u'_source': {
-#     u'comment': 126681,
-#     u'star': 4.5,
-#     u'title': u'\u8d85\u8131\xa0/\xa0Detachment',
-#     u'url': u'http://movie.douban.com/subject/5322596/',
-#     u'quote': u'...',
-#     u'pic': u'http://img3.douban.com/view/movie_poster_cover/ipst/public/p1305562621.jpg',
-#     u'rank': 101,
-#     u'rate': 8.7,
-#     u'desc': u'...'
-#   },
-#   u'_index': u'douban',
-#   u'_version': 2,
-#   u'found': True,
-#   u'_id': u'455'
+#     "_shards": {
+#         "successful": 5,
+#         "failed": 0,
+#         "total": 10
+#     }
 # }
-
-print '============================================================================ [4] search'
+print '============================================================================ [4] get'
+# get = es.get(index='douban', doc_type='movie', id=499)
+# print json.JSONEncoder(indent=4).encode(get)
+# {
+#     "_type": "movie",
+#     "_source": {
+#         "comment": 141800,
+#         "star": 4.5,
+#         "title": "\u65b0\u9f99\u95e8\u5ba2\u6808\u00a0/\u00a0\u65b0\u9f8d\u9580\u5ba2\u68e7",
+#         "url": "http://movie.douban.com/subject/1292287/",
+#         "quote": "\u5b09\u7b11\u6012\u9a82\uff0c\u8c03\u98ce\u52a8\u6708\u3002",
+#         "pic": "http://img3.doubanio.com/view/movie_poster_cover/ipst/public/p1421018669.jpg",
+#         "rank": 209,
+#         "rate": 8.4,
+#         "desc": "..."
+#     },
+#     "_index": "douban",
+#     "_version": 1,
+#     "found": true,
+#     "_id": "499"
+# }
+print '============================================================================ [5] search'
 """
-20160123 need to be studied ...
+??????????????????????????????????????????????????
+Query DSL
+??????????????????????????????????????????????????
 """
 search = es.search(
     index='douban',
@@ -127,11 +142,54 @@ search = es.search(
         },
     },
 )
-print search
-
-print '============================================================================ [5] delete index'
-# delete = es.delete_index('douban')
-# print delete
-# {u'acknowledged': True}
+print json.JSONEncoder(indent=4).encode(search)
+# {
+#     "hits": {
+#         "hits": [
+#             {
+#                 "_score": 1.0,
+#                 "_index": "douban"
+#                 "_type": "movie",
+#                 "_id": "453",
+#                 "_source": {
+#                     "comment": 660703,
+#                     "star": 5.0,
+#                     "title": "\u8096\u7533\u514b\u7684\u6551\u8d4e\u00a0/\u00a0The Shawshank Redemption",
+#                     "url": "http://movie.douban.com/subject/1292052/",
+#                     "quote": "\u5e0c\u671b\u8ba9\u4eba\u81ea\u7531\u3002",
+#                     "pic": "http://img3.douban.com/view/movie_poster_cover/ipst/public/p480747492.jpg",
+#                     "rank": 1,
+#                     "rate": 9.6,
+#                     "desc": "..."
+#                 },
+#             },
+#             {
+#                 "_score": 1.0,
+#                 "_index": "douban"
+#                 "_type": "movie",
+#                 "_id": "460",
+#                 "_source": {
+#                     "comment": 44860,
+#                     "star": 4.5,
+#                     "title": "\u8fc1\u5f99\u7684\u9e1f\u00a0/\u00a0Le peuple migrateur",
+#                     "url": "http://movie.douban.com/subject/1292281/",
+#                     "quote": "\u6700\u7f8e\u7684\u98de\u7fd4\u3002",
+#                     "pic": "http://img4.douban.com/view/movie_poster_cover/ipst/public/p2238274168.jpg",
+#                     "rank": 152,
+#                     "rate": 9.1,
+#                     "desc": "..."
+#                 },
+#             },
+#         ],
+#         "total": 250,
+#         "max_score": 1.0
+#     },
+#     "_shards": {
+#         "successful": 5,
+#         "failed": 0,
+#         "total": 5
+#     },
+#     "took": 192,
+#     "timed_out": false
+# }
 print '============================================================================'
-

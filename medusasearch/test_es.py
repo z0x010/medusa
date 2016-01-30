@@ -129,21 +129,16 @@ print '=========================================================================
 #     "found": true,
 # }
 print '============================================================================ [5] search'
-"""
-??????????????????????????????????????????????????
-Query DSL
-??????????????????????????????????????????????????
-"""
-search = es.search(
-    index='douban',
-    doc_type='movie',
-    query={
-        'query': {
-            "match_all": {}
-        },
-    },
-)
-print json.JSONEncoder(indent=4).encode(search)
+# search = es.search(
+#     index='douban',
+#     doc_type='movie',
+#     query={
+#         'query': {
+#             "match_all": {}
+#         },
+#     },
+# )
+# print json.JSONEncoder(indent=4).encode(search)
 # {
 #     "took": 192,
 #     "timed_out": false
@@ -193,4 +188,17 @@ print json.JSONEncoder(indent=4).encode(search)
 #         ],
 #     },
 # }
-print '============================================================================'
+print '============================================================================ [6] search test'
+"""
+Query DSL
+"""
+search = es.search(
+    index='douban',
+    doc_type='movie',
+    query={
+        'query': {
+            "match_all": {}
+        },
+    },
+)
+print json.JSONEncoder(indent=4).encode(search)

@@ -78,7 +78,7 @@ class MovieView(View):
         keyword = request.GET.get('keyword')
         page = request.GET.get('page', 1)
         print '--------------------------------------------------'
-        # 查询数据库(数据来自spider)
+        # 查询 ElasticSearch
         movies = []
         print '--------------------------------------------------'
         # 分页

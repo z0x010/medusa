@@ -16,6 +16,7 @@ from django.core.files.uploadedfile import UploadedFile, InMemoryUploadedFile, T
 from django.core.files import File
 from django.core.files.images import ImageFile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 
 from coffin.shortcuts import render as coffin_render
@@ -39,12 +40,19 @@ class MovieView(View):
     豆瓣电影 TOP250
     """
     def get(self, request, *args, **kwargs):
-        context = {}
-        # 数据来自 spider
-        movies = Movie.objects.order_by('rank')
-        # 需要分页
-        paginator = Paginator(movies, 10)
+        # 关键字参数和分页参数
+        keyword = request.GET.get('keyword')
         page = request.GET.get('page', 1)
+        # 查询数据库(数据来自spider)
+        movies = Movie.objects.order_by('rank')
+        if keyword:
+            strict = Q(title__icontains=keyword) | \
+                     Q(desc__icontains=keyword) | \
+                     Q(quote__icontains=keyword)
+            movies = movies.filter(strict)
+            pass
+        # 分页
+        paginator = Paginator(movies, 10)
         try:
             pager = paginator.page(page)
         except PageNotAnInteger:
@@ -54,7 +62,7 @@ class MovieView(View):
             pass
         # 分页片段中使用 pager.queries 达到在翻页时带着查询参数的目的
         pager.queries = "keyword=%s" % (request.GET.get('keyword') or '',)
-        # 通用的分页片段(pagination_jinja.html)需要将 object_list 统一命名为: page
-        # 模板中使用 page 来访问对象
+        # [网页模板]和[通用分页片段(pagination_jinja.html)]中使用 "page" 来访问 Page object
+        context = {}
         context['page'] = pager
         return coffin_render(request, 'movie.html', context)

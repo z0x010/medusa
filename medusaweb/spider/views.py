@@ -3,6 +3,7 @@
 
 import datetime
 import random
+import json
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -17,9 +18,12 @@ from django.core.files import File
 from django.core.files.images import ImageFile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-
-
+from spider.models import Movie
 from coffin.shortcuts import render as coffin_render
+
+
+
+
 class Jinja2View(View):
     """
     使用 Jinja2 模板
@@ -34,8 +38,9 @@ class Jinja2View(View):
         return coffin_render(request, 'jinja2.html', context)
 
 
-from spider.models import Movie
-class MovieView(View):
+
+
+class MovieView_DB(View):
     """
     豆瓣电影 TOP250
     """
@@ -70,19 +75,61 @@ class MovieView(View):
         context['page'] = pager
         return coffin_render(request, 'movie.html', context)
 
-    def post(self, request, *args, **kwargs):
+
+
+
+class MovieView_ES(View):
+    """
+    豆瓣电影 TOP250
+    """
+    def get(self, request, *args, **kwargs):
         """
         搜索 ElasticSearch
         """
         # 关键字参数和分页参数
         keyword = request.GET.get('keyword')
         page = request.GET.get('page', 1)
-        print '--------------------------------------------------'
+        print '----------------------------------------------------------------------------------------'
         # 查询 ElasticSearch
-        movies = []
-        print '--------------------------------------------------'
+        from pyelasticsearch import ElasticSearch
+        es = ElasticSearch(
+            urls='http://192.168.100.100',
+            port=9200,
+        )
+        dsl_movie = {
+            'query': {
+                'bool': {
+                    'should': [
+                        {
+                            'match': {
+                                'title': keyword,
+                            }
+                        },
+                        {
+                            'match': {
+                                'desc': keyword,
+                            }
+                        },
+                        {
+                            'match': {
+                                'quote': keyword,
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        search = es.search(
+            index='douban',
+            doc_type='movie',
+            query=dsl_movie,
+        )
+        # print json.JSONEncoder(indent=4).encode(search)
+        hits = search['hits']['hits']
+        movies = [hit['_source'] for hit in hits]
+        print '----------------------------------------------------------------------------------------'
         # 分页
-        paginator = Paginator(object_list=movies, per_page=10)
+        paginator = Paginator(object_list=movies, per_page=5)
         try:
             pager = paginator.page(page)
         except PageNotAnInteger:

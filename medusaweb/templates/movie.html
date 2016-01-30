@@ -8,18 +8,18 @@
 {% block body %}
 
 
-<form class="" method="get">
+<form class="" method="get" action="{% url movie_db %}">
     <div class="">
         <input class="" type="text" name="keyword" placeholder="">
-        <button class="btn btn-default" type="submit">搜索 PostgreSQL</button>
+        <button class="btn btn-default" type="submit">PostgreSQL</button>
     </div>
 </form>
 
-<form class="" method="post">
+<form class="" method="get" action="{% url movie_es %}">
     {% csrf_token %}
     <div class="">
         <input class="" type="text" name="keyword" placeholder="">
-        <button class="btn btn-default" type="submit">搜索 ElasticSearch</button>
+        <button class="btn btn-default" type="submit">ElasticSearch</button>
     </div>
 </form>
 

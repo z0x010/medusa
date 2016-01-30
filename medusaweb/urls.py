@@ -25,6 +25,8 @@ urlpatterns += patterns(
     '',
     # Jinja2 模板
     url(r'^jinja2/$', views.Jinja2View.as_view(), name='jinja2'),
-    # 豆瓣电影 TOP250
-    url(r'^movie/$', views.MovieView.as_view(), name='movie'),
+    # 豆瓣电影 TOP250 (PostgreSQL)
+    url(r'^movie/db/$', views.MovieView_DB.as_view(), name='movie_db'),
+    # 豆瓣电影 TOP250 (ElasticSearch)
+    url(r'^movie/es/$', views.MovieView_ES.as_view(), name='movie_es'),
 )

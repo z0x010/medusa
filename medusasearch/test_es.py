@@ -134,7 +134,7 @@ print '=========================================================================
 #     doc_type='movie',
 #     query={
 #         'query': {
-#             "match_all": {}
+#             'match_all': {}
 #         },
 #     },
 # )
@@ -190,15 +190,18 @@ print '=========================================================================
 # }
 print '============================================================================ [6] search test'
 """
-Query DSL
+Query DSL(Domain Specific Language)
 """
+dsl = {
+    'query': {
+        'match': {
+            'rank': 100
+        },
+    },
+}
 search = es.search(
     index='douban',
     doc_type='movie',
-    query={
-        'query': {
-            "match_all": {}
-        },
-    },
+    query=dsl
 )
 print json.JSONEncoder(indent=4).encode(search)

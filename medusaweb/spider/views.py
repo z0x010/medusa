@@ -119,17 +119,24 @@ class MovieView_ES(View):
                 }
             }
         }
+        """
+        ElasticSearch 分页参数:
+        es_from
+        size
+        """
         search = es.search(
             index='douban',
             doc_type='movie',
             query=dsl_movie,
+            es_from=0,
+            size=250,
         )
         # print json.JSONEncoder(indent=4).encode(search)
         hits = search['hits']['hits']
         movies = [hit['_source'] for hit in hits]
         print '----------------------------------------------------------------------------------------'
         # 分页
-        paginator = Paginator(object_list=movies, per_page=5)
+        paginator = Paginator(object_list=movies, per_page=10)
         try:
             pager = paginator.page(page)
         except PageNotAnInteger:

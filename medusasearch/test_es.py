@@ -191,17 +191,146 @@ print '=========================================================================
 print '============================================================================ [6] search test'
 """
 Query DSL(Domain Specific Language)
+    [1] query
+    [2] filter
 """
-dsl = {
+# ----------------------------------------------------------------------------------------------------
+
+# 精确匹配
+dsl_term = {
+    'query': {
+        'term': {
+            'rank': 1,
+        }
+    }
+}
+
+# 精确匹配
+dsl_terms = {
+    'query': {
+        'terms': {
+            'rank': [1, 2, 3],
+        }
+    }
+}
+
+# 范围匹配
+dsl_range = {
+    'query': {
+        'range': {
+            'rank': {
+                'gte': 1,
+                'lte': 3,
+            }
+        }
+    }
+}
+
+# 布尔过滤
+# must=and, must_not=not, should=or
+dsl_bool = {
+    'query': {
+        'bool': {
+            'must': {
+                'terms': {
+                    'rank': [1, 2, 3],
+                }
+            },
+            'must_not': {
+                'terms': {
+                    'rank': [3, 4, 5],
+                }
+            },
+            'should': [
+                {
+                    'term': {
+                        'rank': 1,
+                    }
+                },
+                {
+                    'term': {
+                        'rank': 2,
+                    }
+                },
+                {
+                    'term': {
+                        'rank': 3,
+                    }
+                }
+            ]
+        }
+    }
+}
+
+# 匹配查询
+dsl_match = {
     'query': {
         'match': {
-            'rank': 100
-        },
-    },
+            'rank': 1,
+        }
+    }
 }
+
+# ----------------------------------------------------------------------------------------------------
+dsl_movie = {
+    'query': {
+        'bool': {
+            'must': [
+                {
+                    'match': {
+                        'desc': '美国',
+                    }
+                },
+                {
+                    'match': {
+                        'quote': '美国',
+                    }
+                },
+                {
+                    'match': {
+                        'star': 5.0,
+                    }
+                }
+            ]
+        }
+    }
+}
+# ----------------------------------------------------------------------------------------------------
 search = es.search(
     index='douban',
     doc_type='movie',
-    query=dsl
+    query=dsl_movie,
 )
 print json.JSONEncoder(indent=4).encode(search)
+# {
+#     "hits": {
+#         "hits": [
+#             {
+#                 "_score": 1.6894925,
+#                 "_type": "movie",
+#                 "_id": "464",
+#                 "_source": {
+#                     "comment": 554462,
+#                     "star": 5.0,
+#                     "title": "\u963f\u7518\u6b63\u4f20\u00a0/\u00a0Forrest Gump",
+#                     "url": "http://movie.douban.com/subject/1292720/",
+#                     "quote": "\u4e00\u90e8\u7f8e\u56fd\u8fd1\u73b0\u4ee3\u53f2\u3002",
+#                     "pic": "http://img4.douban.com/view/movie_poster_cover/ipst/public/p510876377.jpg",
+#                     "rank": 3,
+#                     "rate": 9.4,
+#                     "desc": "..."
+#                 },
+#                 "_index": "douban"
+#             }
+#         ],
+#         "total": 1,
+#         "max_score": 1.6894925
+#     },
+#     "_shards": {
+#         "successful": 5,
+#         "failed": 0,
+#         "total": 5
+#     },
+#     "took": 30,
+#     "timed_out": false
+# }

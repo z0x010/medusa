@@ -3,8 +3,6 @@
 
 
 import json
-
-
 # ------------------------------------------------------------------------------------
 # 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
 import sys
@@ -50,7 +48,10 @@ docs_movies = Movie.objects.all().values()
 # ------------------------------------------------------------------------------------
 print '============================================================================ ElasticSearch'
 from pyelasticsearch import ElasticSearch
-es = ElasticSearch('http://192.168.100.100:9200')
+es = ElasticSearch(
+    urls='http://192.168.100.100',
+    port=9200,
+)
 # <pyelasticsearch.client.ElasticSearch object at 0x1c86a90>
 
 print '============================================================================ [1] create index'
@@ -110,7 +111,6 @@ print '=========================================================================
 # get = es.get(index='douban', doc_type='movie', id=499)
 # print json.JSONEncoder(indent=4).encode(get)
 # {
-#     "_type": "movie",
 #     "_source": {
 #         "comment": 141800,
 #         "star": 4.5,
@@ -123,9 +123,10 @@ print '=========================================================================
 #         "desc": "..."
 #     },
 #     "_index": "douban",
+#     "_type": "movie",
+#     "_id": "499"
 #     "_version": 1,
 #     "found": true,
-#     "_id": "499"
 # }
 print '============================================================================ [5] search'
 """

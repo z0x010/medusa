@@ -145,7 +145,16 @@ search = es.search(
 )
 print json.JSONEncoder(indent=4).encode(search)
 # {
+#     "took": 192,
+#     "timed_out": false
+#     "_shards": {
+#         "successful": 5,
+#         "failed": 0,
+#         "total": 5
+#     },
 #     "hits": {
+#         "total": 250,
+#         "max_score": 1.0
 #         "hits": [
 #             {
 #                 "_score": 1.0,
@@ -182,15 +191,6 @@ print json.JSONEncoder(indent=4).encode(search)
 #                 },
 #             },
 #         ],
-#         "total": 250,
-#         "max_score": 1.0
 #     },
-#     "_shards": {
-#         "successful": 5,
-#         "failed": 0,
-#         "total": 5
-#     },
-#     "took": 192,
-#     "timed_out": false
 # }
 print '============================================================================'

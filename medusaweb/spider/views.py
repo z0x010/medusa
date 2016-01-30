@@ -40,6 +40,9 @@ class MovieView(View):
     豆瓣电影 TOP250
     """
     def get(self, request, *args, **kwargs):
+        """
+        搜索 PostgreSQL
+        """
         # 关键字参数和分页参数
         keyword = request.GET.get('keyword')
         page = request.GET.get('page', 1)
@@ -52,7 +55,34 @@ class MovieView(View):
             movies = movies.filter(strict)
             pass
         # 分页
-        paginator = Paginator(movies, 10)
+        paginator = Paginator(object_list=movies, per_page=10)
+        try:
+            pager = paginator.page(page)
+        except PageNotAnInteger:
+            pager = paginator.page(1)
+        except EmptyPage:
+            pager = paginator.page(paginator.num_pages)
+            pass
+        # 分页片段中使用 pager.queries 达到在翻页时带着查询参数的目的
+        pager.queries = "keyword=%s" % (request.GET.get('keyword') or '',)
+        # [网页模板]和[通用分页片段(pagination_jinja.html)]中使用 "page" 来访问 Page object
+        context = {}
+        context['page'] = pager
+        return coffin_render(request, 'movie.html', context)
+
+    def post(self, request, *args, **kwargs):
+        """
+        搜索 ElasticSearch
+        """
+        # 关键字参数和分页参数
+        keyword = request.GET.get('keyword')
+        page = request.GET.get('page', 1)
+        print '--------------------------------------------------'
+        # 查询数据库(数据来自spider)
+        movies = []
+        print '--------------------------------------------------'
+        # 分页
+        paginator = Paginator(object_list=movies, per_page=10)
         try:
             pager = paginator.page(page)
         except PageNotAnInteger:

@@ -11,7 +11,15 @@
 <form class="" method="get">
     <div class="">
         <input class="" type="text" name="keyword" placeholder="">
-        <button class="btn btn-default" type="submit">搜索</button>
+        <button class="btn btn-default" type="submit">搜索 PostgreSQL</button>
+    </div>
+</form>
+
+<form class="" method="post">
+    {% csrf_token %}
+    <div class="">
+        <input class="" type="text" name="keyword" placeholder="">
+        <button class="btn btn-default" type="submit">搜索 ElasticSearch</button>
     </div>
 </form>
 

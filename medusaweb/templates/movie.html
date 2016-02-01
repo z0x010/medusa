@@ -9,6 +9,7 @@
 
 
 <form class="" method="get" action="{% url movie_db %}">
+    {#    {% csrf_token %}#}
     <div class="">
         <input class="" type="text" name="keyword" placeholder="">
         <button class="btn btn-default" type="submit">PostgreSQL</button>
@@ -16,7 +17,7 @@
 </form>
 
 <form class="" method="get" action="{% url movie_es %}">
-    {% csrf_token %}
+    {#    {% csrf_token %}#}
     <div class="">
         <input class="" type="text" name="keyword" placeholder="">
         <button class="btn btn-default" type="submit">ElasticSearch</button>

@@ -22,6 +22,11 @@ from spider.models import Movie
 from coffin.shortcuts import render as coffin_render
 
 
+# ------------------------------------------------------------------------------------
+# 设置环境变量: sys.path(Initialized from the environment variable PYTHONPATH)
+import sys
+sys.path.append('/home/workspace/medusa/medusalib')
+# ------------------------------------------------------------------------------------
 
 
 class Jinja2View(View):
@@ -90,12 +95,6 @@ class MovieView_ES(View):
         keyword = request.GET.get('keyword')
         page = request.GET.get('page', 1)
         print '----------------------------------------------------------------------------------------'
-        # 查询 ElasticSearch
-        from pyelasticsearch import ElasticSearch
-        es = ElasticSearch(
-            urls='http://192.168.100.100',
-            port=9200,
-        )
         dsl_movie = {
             'query': {
                 'bool': {
@@ -119,12 +118,28 @@ class MovieView_ES(View):
                 }
             }
         }
-        """
-        ElasticSearch 分页参数:
-        es_from
-        size
-        """
-        search = es.search(
+        # [1] 创建客户端对象 查询ElasticSearch
+        # from pyelasticsearch import ElasticSearch
+        # es = ElasticSearch(
+        #     urls='http://192.168.100.100',
+        #     port=9200,
+        # )
+        # [2] 使用单例模式实现的客户端对象 查询ElasticSearch
+        from elasticsearchclient.esclient import ESClient
+        esclient = ESClient()
+        # print '=================================================='
+        # print '单例模式'
+        # print esclient
+        # print id(esclient)
+        # print esclient.esclient
+        # print id(esclient.esclient)
+        # <elasticsearchclient.esclient.ESClient object at 0x7f0cdc6d0950>
+        # 139693214468432
+        # <pyelasticsearch.client.ElasticSearch object at 0x7f0cdc6d0c90>
+        # 139693214469264
+        # print '=================================================='
+        # ElasticSearch 分页参数: es_from, size
+        search = esclient.esclient.search(
             index='douban',
             doc_type='movie',
             query=dsl_movie,

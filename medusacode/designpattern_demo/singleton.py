@@ -9,6 +9,12 @@ print '=========================================================================
 如果cls._instance为None说明该类还没有实例化过,实例化该类,并返回;
 如果cls._instance非None说明该类已经被实例化过,直接返回cls._instance;
 """
+"""
+在 Java 中，
+静态变量(在Python中叫类属性)和实例变量(在Python中叫数据属性)两者都是紧跟在类定义之后定义的(一个有static关键字，一个没有)。
+在 Python 中，
+只有类属性可以紧跟在类定义之后定义，数据属性定义在__init__方法中。
+"""
 class Singleton(object):
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, '_instance'):

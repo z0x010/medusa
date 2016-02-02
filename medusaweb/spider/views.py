@@ -127,7 +127,7 @@ class MovieView_ES(View):
         # [2] 使用单例模式实现的客户端对象 查询ElasticSearch
         from elasticsearchclient.esclient import ESClient
         esclient = ESClient()
-        # print '=================================================='
+        # print '==========================================================================='
         # print '单例模式'
         # print esclient
         # print id(esclient)
@@ -137,7 +137,7 @@ class MovieView_ES(View):
         # 139693214468432
         # <pyelasticsearch.client.ElasticSearch object at 0x7f0cdc6d0c90>
         # 139693214469264
-        # print '=================================================='
+        # print '==========================================================================='
         # ElasticSearch 分页参数: es_from, size
         search = esclient.esclient.search(
             index='douban',

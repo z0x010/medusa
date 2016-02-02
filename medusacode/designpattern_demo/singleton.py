@@ -80,5 +80,47 @@ print b.x, id(b.x), b.__dict__, id(b.__dict__), id(Borg._shared_state)
 print Borg._shared_state, id(Borg._shared_state)
 # {'x': 9} 140325311114016
 print '===================================================================================================='
+"""
+方法3:
+其实是方法1的升级（高级）版,
+使用装饰器(decorator),这是更加pythonic、更加elegant的方法。
+"""
+
+def singleton(cls, *args, **kwargs):
+    instances = {}
+    def _singleton():
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return _singleton
+
+@singleton
+class MyClass3(object):
+    ca = 1
+    def __init__(self, x=0):
+        self.x = x
+        pass
+    pass
+
+a = MyClass3()
+b = MyClass3()
+
+print a, id(a)
+print b, id(b)
+a.ca = 9
+print a.ca, id(a.ca)
+print b.ca, id(b.ca)
+
+# 使用 @singleton 修饰前
+# <__main__.MyClass3 object at 0x10d458e10> 4517629456
+# <__main__.MyClass3 object at 0x10d458d90> 4517629328
+# 9 140491095055720
+# 1 140491095055912
+
+# 使用 @singleton 修饰后
+# <__main__.MyClass3 object at 0x106dffe10> 4410310160
+# <__main__.MyClass3 object at 0x106dffe10> 4410310160
+# 9 140683822311880
+# 9 140683822311880
 print '===================================================================================================='
 print '===================================================================================================='

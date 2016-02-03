@@ -2,6 +2,18 @@
 # coding:utf-8
 
 
+"""
+A decorator is a function that:
+    takes [a function object] as an argument,
+    returns [a function object] as a return value.
+
+decorators are often used to add features to the original_function.
+
+(or more precisely)
+decorators are often used to create a new_function that does roughly what original_function does,
+but also does things in addition to what original_function does.
+"""
+
 # A decorator is a function that expects ANOTHER function as parameter
 def my_shiny_new_decorator(a_function_to_decorate):
 

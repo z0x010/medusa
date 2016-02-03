@@ -23,7 +23,3 @@ class Lucy(object):
 l = Lucy()
 l.sayYourAge(-3)
 # outputs: I am 26, what did you think?
-
-
-
-

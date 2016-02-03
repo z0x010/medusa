@@ -9,9 +9,10 @@ def benchmark(func):
     import time
 
     def wrapper(*args, **kwargs):
-        t = time.clock()
+        start = time.clock()
         res = func(*args, **kwargs)
-        print func.__name__, time.clock()-t
+        stop = time.clock()
+        print '[benchmark]', func.__name__, stop - start
         return res
     return wrapper
 
@@ -23,7 +24,7 @@ def logging(func):
     """
     def wrapper(*args, **kwargs):
         res = func(*args, **kwargs)
-        print func.__name__, args, kwargs
+        print '[logging]', func.__name__, args, kwargs
         return res
     return wrapper
 
@@ -35,7 +36,7 @@ def counter(func):
     def wrapper(*args, **kwargs):
         wrapper.count += 1
         res = func(*args, **kwargs)
-        print "{0} has been used: {1} times".format(func.__name__, wrapper.count)
+        print '[counter]', "{0} has been used: {1} times".format(func.__name__, wrapper.count)
         return res
     wrapper.count = 0
     return wrapper
@@ -47,17 +48,16 @@ def counter(func):
 def reverse_string(string):
     return str(reversed(string))
 
-print reverse_string("Able was I ere I saw Elba")
+print reverse_string("123456789")
 # outputs:
-# reverse_string ('Able was I ere I saw Elba',) {}
-# wrapper 4.7e-05
-# wrapper has been used: 1 times
-# <reversed object at 0x105392e50>
+# [logging] reverse_string ('123456789',) {}
+# [benchmark] wrapper 4e-05
+# [counter] wrapper has been used: 1 times
+# <reversed object at 0x109517d90>
 
 print reverse_string("A man, a plan, a canoe, pasta, heros, rajahs, a coloratura, maps, snipe.")
 # outputs:
-# reverse_string ('A man, a plan, a canoe, pasta, heros, rajahs, a coloratura, maps, snipe.',) {}
-# wrapper 5.1e-05
-# wrapper has been used: 2 times
-# <reversed object at 0x105392e50>
-
+# [logging] reverse_string ('A man, a plan, a canoe, pasta, heros, rajahs, a coloratura, maps, snipe.',) {}
+# [benchmark] wrapper 4.9e-05
+# [counter] wrapper has been used: 2 times
+# <reversed object at 0x109517d90>

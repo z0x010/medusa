@@ -8,7 +8,7 @@ It includes the function functools.wraps(), which copies the name, module, and d
 # Fun fact: functools.wraps() is a decorator! ☺
 """
 
-
+print '--------------------------------------------------------------------------------------------------------------'
 # For debugging, the stacktrace prints you the function __name__
 def foo():
     print "foo"
@@ -31,7 +31,7 @@ def foo():
 print foo.__name__
 # outputs: wrapper
 
-
+print '--------------------------------------------------------------------------------------------------------------'
 # "functools" can help for that
 
 import functools
@@ -51,3 +51,4 @@ def foo():
 
 print foo.__name__
 # outputs: foo
+print '--------------------------------------------------------------------------------------------------------------'

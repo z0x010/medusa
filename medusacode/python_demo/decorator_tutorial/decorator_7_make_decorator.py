@@ -2,6 +2,7 @@
 # coding:utf-8
 
 
+print '--------------------------------------------------------------------------------------------------------------'
 def decorator_maker():
 
     print "I am a decorator_maker! I am executed only once: when you make me create a decorator."
@@ -11,14 +12,17 @@ def decorator_maker():
         print "I am a decorator! I am executed only when you decorate a function."
 
         def wrapped():
-            print ("I am the wrapper around the decorated function! I am called when you call the decorated function. "
-                   "As a wrapper, I RETURN the RESULT of the decorated function.")
+            print "I am the wrapper around the decorated function! " \
+                  "I am called when you call the decorated function. " \
+                  "As a wrapper, I RETURN the RESULT of the decorated function."
             return func()
 
         print "As a decorator, I return the wrapped function."
+
         return wrapped
 
     print "As a decorator_maker, I return a decorator"
+
     return my_decorator
 
 print '--------------------------------------------------------------------------------------------------------------'
@@ -35,13 +39,12 @@ def decorated_function():
 decorated_function = new_decorator(decorated_function)
 # outputs:
 # I am a decorator! I am executed only when you decorate a function.
-# As a decorator, I return the wrapped function
+# As a decorator, I return the wrapped function.
 
 # Let’s call the function:
 decorated_function()
 # outputs:
-# I am the wrapper around the decorated function. I am called when you call the decorated function.
-# As a wrapper, I return the RESULT of the decorated function.
+# I am the wrapper around the decorated function! I am called when you call the decorated function. As a wrapper, I RETURN the RESULT of the decorated function.
 # I am the decorated function.
 print '--------------------------------------------------------------------------------------------------------------'
 # Let’s do EXACTLY the same thing, but skip all the pesky intermediate variables:
@@ -58,8 +61,7 @@ decorated_function = decorator_maker()(decorated_function)
 # Finally:
 decorated_function()
 # outputs:
-# I am the wrapper around the decorated function. I am called when you call the decorated function.
-# As a wrapper, I return the RESULT of the decorated function.
+# I am the wrapper around the decorated function! I am called when you call the decorated function. As a wrapper, I RETURN the RESULT of the decorated function.
 # I am the decorated function.
 print '--------------------------------------------------------------------------------------------------------------'
 # Let’s make it even shorter:
@@ -76,8 +78,7 @@ def decorated_function():
 # Eventually:
 decorated_function()
 # outputs:
-# I am the wrapper around the decorated function. I am called when you call the decorated function.
-# As a wrapper, I return the RESULT of the decorated function.
+# I am the wrapper around the decorated function! I am called when you call the decorated function. As a wrapper, I RETURN the RESULT of the decorated function.
 # I am the decorated function.
 
 # Hey, did you see that? We used a function call with the "@" syntax!
@@ -97,7 +98,8 @@ def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
 
         # Don't confuse decorator arguments and function arguments!
         def wrapped(function_arg1, function_arg2):
-            print ("I am the wrapper around the decorated function! I am called when you call the decorated function. I can access all the variables\n"
+            print ("I am the wrapper around the decorated function! I am called when you call the decorated function. "
+                   "I can access all the variables\n"
                    "\t- from the decorator: {0} {1}\n"
                    "\t- from the function call: {2} {3}\n"
                    "Then I can pass them to the decorated function"
@@ -106,9 +108,11 @@ def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
             return func(function_arg1, function_arg2)
 
         print "As a decorator, I return the wrapped function."
+
         return wrapped
 
     print "As a decorator_maker, I return a decorator"
+
     return my_decorator
 
 @decorator_maker_with_arguments("Leonard", "Sheldon")
@@ -151,10 +155,11 @@ decorated_function_with_arguments(c2, "Howard")
 # Then I can pass them to the decorated function
 # I am the decorated function and only knows about my arguments: Leslie Howard
 
-
-# As you can see, you can pass arguments to the decorator like any function using this trick.
-# You can even use *args, **kwargs if you wish.
-# But remember decorators are called ONLY ONCE. Just when Python imports the script(when you decorate a function).
-# You can't dynamically set the arguments afterwards.
-# When you do "import x", the function is already decorated, so you can't change anything.
+"""
+As you can see, you can pass arguments to the decorator like any function using this trick.
+You can even use *args, **kwargs if you wish.
+But remember: decorators are called ONLY ONCE. Just when Python imports the script(when you decorate a function).
+You can't dynamically set the arguments afterwards.
+When you do "import x", the function is already decorated, so you can't change anything.
+"""
 print '--------------------------------------------------------------------------------------------------------------'

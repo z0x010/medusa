@@ -5,6 +5,11 @@
 """
 面向切片编程(Aspect-Oriented Programming)
 """
+"""
+decorators are “wrappers”,
+which means that they let you execute code before and after the function they decorate
+without modifying the function itself.
+"""
 
 import time
 

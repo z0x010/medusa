@@ -7,10 +7,10 @@
 """
 print '===================================================================================================='
 """
-方法1
-实现__new__方法,并将一个类的实例绑定到类变量_instance上,
-如果cls._instance为None说明该类还没有实例化过,实例化该类,并返回;
-如果cls._instance非None说明该类已经被实例化过,直接返回cls._instance;
+[方法1][共享实例]
+实现__new__方法，并将一个类的实例绑定到类变量_instance上，
+如果cls._instance为None说明该类还没有实例化过，实例化该类，并返回；
+如果cls._instance非None说明该类已经被实例化过，直接返回cls._instance；
 """
 """
 在 Java 中，
@@ -37,11 +37,12 @@ print b, id(b)
 # <__main__.MyClass object at 0x102113a50> 4329650768
 print '===================================================================================================='
 """
-方法2
-共享属性,所谓单例就是所有引用(实例、对象)拥有相同的状态(属性)和行为(方法)
-同一个类的所有实例天然拥有相同的行为(方法),只需要保证同一个类的所有实例具有相同的状态(属性)即可。
-所有实例共享属性(实例共享相同的方法和属性)最简单最直接的方法就是:
-将所有实例的__dict__指向同一个字典(dict)。
+[方法2][共享属性]
+创建实例时，将所有实例的__dict__指向同一个字典(dict)，使得它们具有相同的属性和方法。
+"""
+"""
+所谓单例就是所有引用(实例、对象)拥有相同的状态(属性)和行为(方法)。
+同一个类的所有实例天然拥有相同的行为(方法)，只需要保证同一个类的所有实例具有相同的状态(属性)即可。
 对任何实例的名字属性的设置，无论是在__init__中修改还是直接修改，所有的实例都会受到影响。不过实例的id是不同的。
 """
 """
@@ -52,15 +53,15 @@ object.__dict__
     instance.__dict__
 """
 
-class Borg(object):
+class Bravo(object):
     _shared_state = {}
 
     def __new__(cls, *args, **kwargs):
-        obj = super(Borg, cls).__new__(cls, *args, **kwargs)
+        obj = super(Bravo, cls).__new__(cls, *args, **kwargs)
         obj.__dict__ = cls._shared_state  # instance.__dict__ = class._shared_state
         return obj
 
-class MyClass2(Borg):
+class MyClass2(Bravo):
     x = 1
     pass
 
@@ -73,17 +74,17 @@ print a, id(a)
 print b, id(b)
 # <__main__.MyClass2 object at 0x10defec50> 4528794704
 # <__main__.MyClass2 object at 0x10defecd0> 4528794832
-print a.x, id(a.x), a.__dict__, id(a.__dict__), id(Borg._shared_state)
-print b.x, id(b.x), b.__dict__, id(b.__dict__), id(Borg._shared_state)
+print a.x, id(a.x), a.__dict__, id(a.__dict__), id(Bravo._shared_state)
+print b.x, id(b.x), b.__dict__, id(b.__dict__), id(Bravo._shared_state)
 # 9 140325309983816 {'x': 9} 140325311114016 140325311114016
 # 9 140325309983816 {'x': 9} 140325311114016 140325311114016
-print Borg._shared_state, id(Borg._shared_state)
+print Bravo._shared_state, id(Bravo._shared_state)
 # {'x': 9} 140325311114016
 print '===================================================================================================='
 """
-方法3:
-其实是方法1的升级（高级）版,
-使用装饰器(decorator),这是更加pythonic、更加elegant的方法。
+[方法3][装饰器]
+其实是方法1的升级（高级）版，
+使用装饰器(decorator)，这是更加pythonic、更加elegant的方法。
 """
 
 def singleton(cls, *args, **kwargs):
@@ -99,8 +100,6 @@ class MyClass3(object):
     ca = 1
     def __init__(self, x=0):
         self.x = x
-        pass
-    pass
 
 a = MyClass3()
 b = MyClass3()
@@ -123,4 +122,25 @@ print b.ca, id(b.ca)
 # 9 140683822311880
 # 9 140683822311880
 print '===================================================================================================='
+"""
+[方法4][import]
+作为python的模块是天然的单例模式
+"""
+"""
+# 在其他模块文件（mysingleton.py）中定义:
+
+class My_Singleton(object):
+    def foo(self):
+        pass
+
+my_singleton = My_Singleton()
+"""
+
+# 在当前模块文件中使用
+from mysingleton import my_singleton
+my_singleton.foo()
+# 4473651024
+from mysingleton import my_singleton
+my_singleton.foo()
+# 4473651024
 print '===================================================================================================='

@@ -178,15 +178,28 @@ class ES_Search(View):
     """
     def get(self, request, *args, **kwargs):
         # 接收 DSL 参数执行搜索
-        dsl = request.GET.get('dsl')
+        dsl = request.GET.get('dsl')  # <type 'unicode'>
+        dsl = json.loads(dsl)  # <type 'dict'>
         # 单例模式实现的搜索对象
         # from elasticsearchclient.esclient import ESClient
         esclient = ESClient()
+        print '>>>>>>>>>> ElasticSearch(Singleton)'
+        print id(esclient)
+        print id(esclient.esclient)
+        print '>>>>>>>>>> ElasticSearch(Singleton)'
         search = esclient.esclient.search(
             index='douban',
             doc_type='movie',
             query=dsl,
             es_from=0,
             size=250,
-        )
-        return HttpResponse(content=search, content_type='application/json; charset=UTF-8')
+        )  # <type 'dict'>
+        ret = json.JSONEncoder(indent=4).encode(search)  # <type 'str'>
+        print '----------------------------------------------------------------------------------------'
+        print type(dsl)
+        print dsl
+        print '----------------------------------------------------------------------------------------'
+        print type(ret)
+        print ret
+        print '----------------------------------------------------------------------------------------'
+        return HttpResponse(content=ret, content_type='application/json; charset=UTF-8')

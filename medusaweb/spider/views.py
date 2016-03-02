@@ -27,6 +27,9 @@ from coffin.shortcuts import render as coffin_render
 import sys
 sys.path.append('/home/workspace/medusa/medusalib')
 # ------------------------------------------------------------------------------------
+from elasticsearchclient.esclient import ESClient
+
+
 
 
 class Jinja2View(View):
@@ -125,7 +128,7 @@ class MovieView_ES(View):
         #     port=9200,
         # )
         # [2] 使用单例模式实现的客户端对象 查询ElasticSearch
-        from elasticsearchclient.esclient import ESClient
+        # from elasticsearchclient.esclient import ESClient
         esclient = ESClient()
         # print '==========================================================================='
         # print '单例模式'
@@ -165,3 +168,25 @@ class MovieView_ES(View):
         context = {}
         context['page'] = pager
         return coffin_render(request, 'movie.html', context)
+
+
+
+
+class ES_Search(View):
+    """
+    ElasticSearch 搜索服务
+    """
+    def get(self, request, *args, **kwargs):
+        # 接收 DSL 参数执行搜索
+        dsl = request.GET.get('dsl')
+        # 单例模式实现的搜索对象
+        # from elasticsearchclient.esclient import ESClient
+        esclient = ESClient()
+        search = esclient.esclient.search(
+            index='douban',
+            doc_type='movie',
+            query=dsl,
+            es_from=0,
+            size=250,
+        )
+        return HttpResponse(content=search, content_type='application/json; charset=UTF-8')

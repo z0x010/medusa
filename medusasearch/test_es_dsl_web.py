@@ -189,6 +189,29 @@ dsl = {
     }
 }
 # ---------------------------------------------------------------------------------------- [Query]
+# ---------------------------------------------------------------------------------------- [Filter + Query]
+# Filtering a Query
+"""
+Compound query clauses can wrap other query clauses, and compound filter clauses can wrap other filter clauses.
+However, it is often useful to apply a filter to a query or, less frequently, to use a full-text query as a filter.
+"""
+dsl = {
+    'query': {
+        'filtered': {
+            'query': {
+                'match': {
+                    'desc': 'Spacey'
+                }
+            },
+            'filter': {
+                'term': {
+                    'rank': 232,
+                }
+            },
+        }
+    }
+}
+# ---------------------------------------------------------------------------------------- [Filter + Query]
 ret = es_search(dsl)
 print ret
 

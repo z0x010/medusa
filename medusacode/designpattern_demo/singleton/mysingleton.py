@@ -13,3 +13,15 @@ class My_Singleton(object):
         pass
 
 my_singleton = My_Singleton()
+
+"""
+# 在其他文件中使用:
+
+from mysingleton import my_singleton
+my_singleton.foo()
+# 4473651024
+
+from mysingleton import my_singleton
+my_singleton.foo()
+# 4473651024
+"""

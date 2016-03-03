@@ -272,59 +272,11 @@ dsl_match = {
 }
 
 # ----------------------------------------------------------------------------------------------------
-dsl_movie = {
-    'query': {
-        'bool': {
-            'must': [
-                {
-                    'match': {
-                        'desc': '美国',
-                    }
-                },
-                {
-                    'match': {
-                        'quote': '美国',
-                    }
-                },
-                {
-                    'match': {
-                        'star': 5.0,
-                    }
-                }
-            ]
-        }
-    }
-}
-# ----------------------------------------------------------------------------------------------------
-keyword = '美国'
-dsl_movie = {
-    'query': {
-        'bool': {
-            'should': [
-                {
-                    'match': {
-                        'title': keyword,
-                    }
-                },
-                {
-                    'match': {
-                        'desc': keyword,
-                    }
-                },
-                {
-                    'match': {
-                        'quote': keyword,
-                    }
-                }
-            ]
-        }
-    }
-}
 # ----------------------------------------------------------------------------------------------------
 search = es.search(
     index='douban',
     doc_type='movie',
-    query=dsl_movie,
+    query=dsl_match,
 )
 print json.JSONEncoder(indent=4).encode(search)
 # {

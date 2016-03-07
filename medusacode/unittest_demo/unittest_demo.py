@@ -5,8 +5,6 @@
 Python unittest
 """
 
-
-
 import unittest
 
 def func(a, b):

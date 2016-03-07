@@ -32,7 +32,7 @@ class MyThread(threading.Thread):
     pass
 
 class WriteThread(MyThread):
-   def run(self):
+    def run(self):
         print '[%s][%s]=====[start]' % (self.thread_id, self.thread_name)
         for n in range(10):
             time.sleep(random.random())
@@ -40,7 +40,7 @@ class WriteThread(MyThread):
             pass
         print '[%s][%s]=====[stop]' % (self.thread_id, self.thread_name)
         pass
-   pass
+    pass
 
 class ReadThread(MyThread):
     def run(self):

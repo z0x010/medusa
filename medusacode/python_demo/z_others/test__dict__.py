@@ -9,6 +9,7 @@ The whole object-oriented thing with classes which define methods and instances
 which can execute those methods with the varying data per-instance is
 just a protocol for looking up attributes in a series of objects.
 """
+
 class MyClass(object):
     attr = 1
 

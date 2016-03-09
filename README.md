@@ -5,7 +5,9 @@ medusa is a comprehensive network service consist of web service, spider, search
 
 ## techniques (included but not limited to)
 framework: django, scrapy, elasticsearch
+
 third-party librariry: requests, splinter, jieba
+
 pythonic: object-oriented programming, functional programming
 
 ## hierarchy
@@ -45,15 +47,15 @@ pythonic: object-oriented programming, functional programming
 |medusacode|data_science|data-science-from-scratch|
 |medusacode|unittest_demo|python unittest|
 |medusacode|python_demo|python programming note|
-|medusacode|python_demo/advanced_data_structure_demo|advanced_data_structure|
-|medusacode|python_demo/closure_tutorial|closure|
-|medusacode|python_demo/coroutine_demo|coroutine|
-|medusacode|python_demo/decorator_tutorial|decorator|
-|medusacode|python_demo/functional_programming_demo|functional_programming|
-|medusacode|python_demo/logging_demo|logging|
-|medusacode|python_demo/oop_demo|oop|
-|medusacode|python_demo/re_demo|re|
-|medusacode|python_demo/requests_demo|requests|
-|medusacode|python_demo/thread_demo|thread|
-|medusacode|python_demo/z_others|...|
+|medusacode/python_demo|advanced_data_structure_demo|advanced_data_structure|
+|medusacode/python_demo|closure_tutorial|closure|
+|medusacode/python_demo|coroutine_demo|coroutine|
+|medusacode/python_demo|decorator_tutorial|decorator|
+|medusacode/python_demo|functional_programming_demo|functional_programming|
+|medusacode/python_demo|logging_demo|logging|
+|medusacode/python_demo|oop_demo|oop|
+|medusacode/python_demo|re_demo|re|
+|medusacode/python_demo|requests_demo|requests|
+|medusacode/python_demo|thread_demo|thread|
+|medusacode/python_demo|z_others|...|
 

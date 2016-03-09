@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
+
 """
 itertools — Functions creating iterators for efficient looping
 """

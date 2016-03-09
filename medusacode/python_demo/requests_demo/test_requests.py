@@ -13,7 +13,7 @@ URL_ihotel_regions = URL+'/ihotel/regions'
 URL_ihotel_list = URL+'/ihotel/list'
 URL_ihotel_detail = URL+'/ihotel/detail'
 
-# ==========================================================================================
+# ------------------------------------------------------------------------------------------
 # r = requests.get('http://www.baidu.com')
 # print r
 # print r.url
@@ -24,7 +24,7 @@ URL_ihotel_detail = URL+'/ihotel/detail'
 # print r.cookies
 # print r.text
 # print r.json()
-# ==========================================================================================
+# ------------------------------------------------------------------------------------------
 # data = {'regionId': 6046393,
 #         'checkInDate': datetime.datetime.now().strftime('%Y-%m-%d'),
 #         'checkOutDate': (datetime.datetime.now()+datetime.timedelta(days=1)).strftime('%Y-%m-%d')}
@@ -44,7 +44,7 @@ URL_ihotel_detail = URL+'/ihotel/detail'
 # print type(r.content), r.content
 # print type(r.raw), r.raw
 # print type(r.cookies), r.cookies
-# ==========================================================================================
+# ------------------------------------------------------------------------------------------
 """
 requests 标准使用方法
 """
@@ -68,4 +68,4 @@ response = session.send(prepared_request)
 print response
 # <Response [200]>
 print response.json()
-# ==========================================================================================
+# ------------------------------------------------------------------------------------------

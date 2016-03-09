@@ -1,3 +1,5 @@
+# coding=utf-8
+
 """
 Programming languages support decomposing problems in several different ways:
 

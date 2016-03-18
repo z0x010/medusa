@@ -28,6 +28,7 @@ import sys
 sys.path.append('/home/workspace/medusa/medusalib')
 # ------------------------------------------------------------------------------------
 from elasticsearchclient.esclient import ESClient
+# from redisclient.redisclient import redis_db
 
 
 
@@ -203,3 +204,21 @@ class ES_Search(View):
         print ret
         print '----------------------------------------------------------------------------------------'
         return HttpResponse(content=ret, content_type='application/json; charset=UTF-8')
+
+
+
+
+class RedisView(View):
+    """
+    Redis (singleton)
+    """
+    def get(self, request, *args, **kwargs):
+        """
+        Python的模块(module)，就是最 pythonic 的 singleton 典范。
+        模块在在一个应用程序中只有一份，它本身就是单例的。
+        所以只要将所需要的属性和方法，直接暴露在模块中变成模块的全局变量和全局方法即可！
+        """
+        from redisclient.redisclient import redis_db
+        redis_client_id = id(redis_db)
+        ret = 'redis_client_id: %s' % redis_client_id
+        return HttpResponse(ret)

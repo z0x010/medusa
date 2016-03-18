@@ -31,4 +31,6 @@ urlpatterns += patterns(
     url(r'^movie/es/$', views.MovieView_ES.as_view(), name='movie_es'),
     # ElasticSearch 搜索服务
     url(r'^es/search/$', views.ES_Search.as_view(), name='es_search'),
+    # Redis (singleton)
+    url(r'^redis/$', views.RedisView.as_view(), name='redis'),
 )

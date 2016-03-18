@@ -38,14 +38,14 @@ class Product_concrete_A_1(Product_abstract_A):
     具体产品 A 1
     """
     def use(self):
-        print 'A-1'
+        print 'using:', self.__class__.__name__
 
 class Product_concrete_A_2(Product_abstract_A):
     """
     具体产品 A 2
     """
     def use(self):
-        print 'A-2'
+        print 'using:', self.__class__.__name__
 
 
 class Product_abstract_B(object):
@@ -60,14 +60,14 @@ class Product_concrete_B_1(Product_abstract_B):
     具体产品 B 1
     """
     def use(self):
-        print 'B-1'
+        print 'using:', self.__class__.__name__
 
 class Product_concrete_B_2(Product_abstract_B):
     """
     具体产品 B 2
     """
     def use(self):
-        print 'B-2'
+        print 'using:', self.__class__.__name__
 
 
 class Factory_abstract(object):
@@ -101,15 +101,15 @@ class Factory_concrete_2(Factory_abstract):
 factory_1 = Factory_concrete_1()
 product_A_int = factory_1.create_product_A()
 product_A_int.use()
+# using: Product_concrete_A_1
 product_B_int = factory_1.create_product_B()
 product_B_int.use()
-# A-1
-# B-1
+# using: Product_concrete_B_1
 
 factory_2 = Factory_concrete_2()
 product_A_str = factory_2.create_product_A()
 product_A_str.use()
+# using: Product_concrete_A_2
 product_B_str = factory_2.create_product_B()
 product_B_str.use()
-# A-2
-# B-2
+# using: Product_concrete_B_2

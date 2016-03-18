@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
 
-
 """
 简单工厂模式(Simple Factory Pattern)
     在简单工厂模式中，可以根据参数的不同返回不同类的实例。
@@ -26,36 +25,39 @@ class Product_abstract(object):
     def use(self):
         pass
 
-class Product_concrete_int(Product_abstract):
+class Product_concrete_1(Product_abstract):
     """
     具体产品 1
     """
     def use(self):
-        print 1234567890
+        print 'using:', self.__class__.__name__
 
-class Product_concrete_str(Product_abstract):
+class Product_concrete_2(Product_abstract):
     """
     具体产品 2
     """
     def use(self):
-        print 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        print 'using:', self.__class__.__name__
 
 class Factory(object):
     """
     工厂
     """
     def create_product(self, type):
-        if type == int:
-            return Product_concrete_int()
-        elif type == str:
-            return Product_concrete_str()
+        if type == 1:
+            return Product_concrete_1()
+        elif type == 2:
+            return Product_concrete_2()
         else:
             return None
 
 
 factory = Factory()
-for type in [int, str]:
-    operation = factory.create_product(type)
-    operation.use()
-    # 1234567890
-    # ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+operation = factory.create_product(1)
+operation.use()
+# using: Product_concrete_1
+
+operation = factory.create_product(2)
+operation.use()
+# using: Product_concrete_2

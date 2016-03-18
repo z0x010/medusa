@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
 
-
 """
 工厂方法模式(Factory Method Pattern)
     在工厂方法模式中，
@@ -36,19 +35,19 @@ class Product_abstract(object):
     def use(self):
         pass
 
-class Product_concrete_int(Product_abstract):
+class Product_concrete_1(Product_abstract):
     """
     具体产品 1
     """
     def use(self):
-        print 1234567890
+        print 'using:', self.__class__.__name__
 
-class Product_concrete_str(Product_abstract):
+class Product_concrete_2(Product_abstract):
     """
     具体产品 2
     """
     def use(self):
-        print 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        print 'using:', self.__class__.__name__
 
 class Factory_abstract(object):
     """
@@ -57,28 +56,27 @@ class Factory_abstract(object):
     def create_product(self):
         return Product_abstract()
 
-class Factory_concrete_int(Factory_abstract):
+class Factory_concrete_1(Factory_abstract):
     """
     具体工厂 1
     """
     def create_product(self):
-        return Product_concrete_int()
+        return Product_concrete_1()
 
-class Factory_concrete_str(Factory_abstract):
+class Factory_concrete_2(Factory_abstract):
     """
     具体工厂 2
     """
     def create_product(self):
-        return Product_concrete_str()
+        return Product_concrete_2()
 
 
-factory_int = Factory_concrete_int()
+factory_int = Factory_concrete_1()
 product_int = factory_int.create_product()
 product_int.use()
-# 1234567890
+# using: Product_concrete_1
 
-factory_str = Factory_concrete_str()
+factory_str = Factory_concrete_2()
 product_str = factory_str.create_product()
 product_str.use()
-# ABCDEFGHIJKLMNOPQRSTUVWXYZ
-
+# using: Product_concrete_2

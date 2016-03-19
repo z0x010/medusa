@@ -17,7 +17,6 @@ Python 真的需要单例模式吗?
 class My_Singleton(object):
     def foo(self):
         print id(self)
-        pass
 
 my_singleton = My_Singleton()
 

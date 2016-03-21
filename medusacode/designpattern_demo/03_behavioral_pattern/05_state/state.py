@@ -49,11 +49,15 @@ class Context(object):
         self.state = state
     def request(self):
         if self.data <= 10:
-            self.set_state(State_concrete_A())
+            if not isinstance(self.state, State_concrete_A):
+                self.set_state(State_concrete_A())
         elif self.data <= 20:
-            self.set_state(State_concrete_B())
+            if not isinstance(self.state, State_concrete_B):
+                self.set_state(State_concrete_B())
         else:
-            self.set_state(State_concrete_C())
+            if not isinstance(self.state, State_concrete_C):
+                self.set_state(State_concrete_C())
+        print 'requesting state: %s %s' % (self.state, id(self.state))
         self.state.handle(self)
 
 class State_abstract(object):
@@ -83,9 +87,15 @@ class State_concrete_C(State_abstract):
     """
     def handle(self, context):
         print 'handle state C'
+        print self
+        print context
 
 
 context = Context()
+
+context.data = 1
+context.request()
+# handle state A
 
 context.data = 5
 context.request()
@@ -98,3 +108,8 @@ context.request()
 context.data = 25
 context.request()
 # handle state C
+
+"""
+??????????
+why id(A) == id(C)
+"""

@@ -43,7 +43,7 @@ class RealSubject(Subject):
     真实主题
     """
     def request(self):
-        print '[!] this is the real request'
+        print '(%s) this is the real request' % self.__class__.__name__
 
 class Proxy(Subject):
     """
@@ -57,4 +57,4 @@ class Proxy(Subject):
 
 proxy = Proxy()
 proxy.request()
-# [!] this is the real request
+# (RealSubject) this is the real request

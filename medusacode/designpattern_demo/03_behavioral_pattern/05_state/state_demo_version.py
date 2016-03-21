@@ -48,12 +48,6 @@ class Context(object):
     def set_state(self, state):
         self.state = state
     def request(self):
-        if self.data <= 10:
-            self.set_state(State_concrete_A())
-        elif self.data <= 20:
-            self.set_state(State_concrete_B())
-        else:
-            self.set_state(State_concrete_C())
         self.state.handle(self)
 
 class State_abstract(object):
@@ -68,14 +62,24 @@ class State_concrete_A(State_abstract):
     具体状态类
     """
     def handle(self, context):
-        print 'handle state A'
+        if context.data <= 10:
+            print 'handle state A'
+        else:
+            new_state = State_concrete_B()
+            context.set_state(new_state)
+            context.request()
 
 class State_concrete_B(State_abstract):
     """
     具体状态类
     """
     def handle(self, context):
-        print 'handle state B'
+        if context.data <= 20:
+            print 'handle state B'
+        else:
+            new_state = State_concrete_C()
+            context.set_state(new_state)
+            context.request()
 
 class State_concrete_C(State_abstract):
     """
@@ -86,6 +90,8 @@ class State_concrete_C(State_abstract):
 
 
 context = Context()
+state_a = State_concrete_A()
+context.set_state(state_a)
 
 context.data = 5
 context.request()

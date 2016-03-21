@@ -43,7 +43,7 @@ class Flyweight_abstract(object):
 #     def __init__(self, role):
 #         self.role = role
 #     def work(self, name):
-#         print '%s (%s)[%s]' % (self.__class__.__name__, self.role, name)
+#         print '(%s) [%s] [%s]' % (self.__class__.__name__, self.role, name)
 
 class Flyweight_concrete_unshared(Flyweight_abstract):
     """
@@ -55,7 +55,7 @@ class Flyweight_concrete_unshared(Flyweight_abstract):
 
     def work(self, name):
         self.name = name
-        print '%s (%s)[%s]' % (self.__class__.__name__, self.role, self.name)
+        print '(%s) [%s] [%s]' % (self.__class__.__name__, self.role, name)
 
 # class Flyweight_Factory_shared(object):
 #     """
@@ -67,12 +67,12 @@ class Flyweight_concrete_unshared(Flyweight_abstract):
 #     def get_flyweight(self, role):
 #         if role not in self.pool:
 #             flyweight = Flyweight_concrete_shared(role)
-#             print '(Flyweight_concrete) %s created' % flyweight
+#             print '(%s): %s created' % (self.__class__.__name__, flyweight)
 #             self.pool[role] = flyweight
 #             self.count[role] = 1
 #         else:
 #             flyweight = self.pool[role]
-#             print '(Flyweight_concrete) %s shared' % flyweight
+#             print '(%s): %s shared' % (self.__class__.__name__, flyweight)
 #             self.count[role] += 1
 #         return flyweight
 #     def get_count(self):
@@ -87,7 +87,7 @@ class Flyweight_Factory_unshared(object):
         self.count = 0
     def get_flyweight(self, role):
         flyweight = Flyweight_concrete_unshared(role)
-        print '(Flyweight_concrete) %s created' % flyweight
+        print '(%s): %s created' % (self.__class__.__name__, flyweight)
         self.pool.append(flyweight)
         self.count += 1
         return flyweight
@@ -99,47 +99,47 @@ print '-------------------------------------------------------------------------
 # factory = Flyweight_Factory_shared()
 #
 # flyweight = factory.get_flyweight('soldier')
-# # (Flyweight_concrete) <__main__.Flyweight_concrete object at 0x10c0cdd90> created
+# # (Flyweight_Factory_shared): <__main__.Flyweight_concrete_shared object at 0x1092f1dd0> created
 # flyweight.work('Captain Price')
-# # Flyweight_concrete (soldier)[Captain Price]
+# # (Flyweight_concrete_shared) [soldier] [Captain Price]
 #
 # flyweight = factory.get_flyweight('soldier')
-# # (Flyweight_concrete) <__main__.Flyweight_concrete object at 0x106546d90> shared
+# # (Flyweight_Factory_shared): <__main__.Flyweight_concrete_shared object at 0x1092f1dd0> shared
 # flyweight.work('Soup Mactavish')
-# # Flyweight_concrete (soldier)[Soup Mactavish]
+# # (Flyweight_concrete_shared) [soldier] [Soup Mactavish]
 #
 # flyweight = factory.get_flyweight('samurai')
-# # (Flyweight_concrete) <__main__.Flyweight_concrete object at 0x1088b3dd0> created
+# # (Flyweight_Factory_shared): <__main__.Flyweight_concrete_shared object at 0x1092f1e10> created
 # flyweight.work('Himura Kenshin')
-# # Flyweight_concrete (samurai)[Himura Kenshin]
+# # (Flyweight_concrete_shared) [samurai] [Himura Kenshin]
 #
 # print factory.pool
-# # {'soldier': <__main__.Flyweight_concrete object at 0x10854ad90>,
-# #  'samurai': <__main__.Flyweight_concrete object at 0x10854add0>}
+# # {'soldier': <__main__.Flyweight_concrete_shared object at 0x1092f1dd0>,
+# #  'samurai': <__main__.Flyweight_concrete_shared object at 0x1092f1e10>}
 # factory.get_count()
 # # [('soldier', 2), ('samurai', 1)]
 print '------------------------------------------------------------------------------------------'
 factory = Flyweight_Factory_unshared()
 
 flyweight = factory.get_flyweight('soldier')
-# (Flyweight_concrete) <__main__.Flyweight_concrete_unshared object at 0x100778090> created
+# (Flyweight_Factory_unshared): <__main__.Flyweight_concrete_unshared object at 0x101cc2090> created
 flyweight.work('Captain Price')
-# Flyweight_concrete_unshared (soldier)[Captain Price]
+# (Flyweight_concrete_unshared) [soldier] [Captain Price]
 
 flyweight = factory.get_flyweight('soldier')
-# (Flyweight_concrete) <__main__.Flyweight_concrete_unshared object at 0x100778150> created
+# (Flyweight_Factory_unshared): <__main__.Flyweight_concrete_unshared object at 0x101cc2150> created
 flyweight.work('Soup Mactavish')
-# Flyweight_concrete_unshared (soldier)[Soup Mactavish]
+# (Flyweight_concrete_unshared) [soldier] [Soup Mactavish]
 
 flyweight = factory.get_flyweight('samurai')
-# (Flyweight_concrete) <__main__.Flyweight_concrete_unshared object at 0x100778110> created
+# (Flyweight_Factory_unshared): <__main__.Flyweight_concrete_unshared object at 0x101cc2110> created
 flyweight.work('Himura Kenshin')
-# Flyweight_concrete_unshared (samurai)[Himura Kenshin]
+# (Flyweight_concrete_unshared) [samurai] [Himura Kenshin]
 
 print factory.pool
-# [<__main__.Flyweight_concrete_unshared object at 0x108820090>,
-#  <__main__.Flyweight_concrete_unshared object at 0x108820150>,
-#  <__main__.Flyweight_concrete_unshared object at 0x108820110>]
+# [<__main__.Flyweight_concrete_unshared object at 0x101cc2090>,
+#  <__main__.Flyweight_concrete_unshared object at 0x101cc2150>,
+#  <__main__.Flyweight_concrete_unshared object at 0x101cc2110>]
 factory.get_count()
 # 3
 print '------------------------------------------------------------------------------------------'

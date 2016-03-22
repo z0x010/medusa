@@ -3,9 +3,27 @@
 
 import redis
 
-redis_db = redis.StrictRedis(host='192.168.100.100',
-                             port=6379,
-                             db=0)
+"""
+class redis.StrictRedis(
+    host='localhost',
+    port=6379, db=0,
+    password=None,
+    socket_timeout=None,
+    connection_pool=None,
+    charset='utf-8',
+    errors='strict',
+    unix_socket_path=None)
+
+    Implementation of the Redis protocol.
+    This abstract class provides a Python interface to all Redis commands and an implementation of the Redis protocol.
+    Connection and Pipeline derive from this, implementing how the commands are sent and received to the Redis server.
+"""
+
+redis_db = redis.StrictRedis(
+    host='192.168.100.100',
+    port=6379,
+    db=0,
+)
 
 # print id(redis_db)
 # # 4380281360

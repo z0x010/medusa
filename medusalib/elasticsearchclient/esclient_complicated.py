@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # coding:utf-8
 
-import datetime
-import random
-import json
+"""
+放弃使用模块方式实现的ElasticSearch单例
+(仅供参考，不在web服务中使用)
+"""
+
 
 from pyelasticsearch import ElasticSearch
 

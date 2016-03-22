@@ -27,8 +27,6 @@ from coffin.shortcuts import render as coffin_render
 import sys
 sys.path.append('/home/workspace/medusa/medusalib')
 # ------------------------------------------------------------------------------------
-from elasticsearchclient.esclient import ESClient
-# from redisclient.redisclient import redis_db
 
 
 
@@ -128,22 +126,13 @@ class MovieView_ES(View):
         #     urls='http://192.168.100.100',
         #     port=9200,
         # )
-        # [2] 使用单例模式实现的客户端对象 查询ElasticSearch
-        # from elasticsearchclient.esclient import ESClient
-        esclient = ESClient()
-        # print '==========================================================================='
-        # print '单例模式'
-        # print esclient
-        # print id(esclient)
-        # print esclient.esclient
-        # print id(esclient.esclient)
-        # <elasticsearchclient.esclient.ESClient object at 0x7f0cdc6d0950>
-        # 139693214468432
-        # <pyelasticsearch.client.ElasticSearch object at 0x7f0cdc6d0c90>
-        # 139693214469264
-        # print '==========================================================================='
+        # [2] ElasticSearch(单例模式)
+        from elasticsearchclient.elasticsearchclient import es_client
+        print '>>>>>>>>>> ElasticSearch(Singleton)'
+        print id(es_client)
+        print '>>>>>>>>>> ElasticSearch(Singleton)'
         # ElasticSearch 分页参数: es_from, size
-        search = esclient.esclient.search(
+        search = es_client.search(
             index='douban',
             doc_type='movie',
             query=dsl_movie,
@@ -181,14 +170,12 @@ class ES_Search(View):
         # 接收 DSL 参数执行搜索
         dsl = request.GET.get('dsl')  # <type 'unicode'>
         dsl = json.loads(dsl)  # <type 'dict'>
-        # 单例模式实现的搜索对象
-        # from elasticsearchclient.esclient import ESClient
-        esclient = ESClient()
+        # ElasticSearch(单例模式)
+        from elasticsearchclient.elasticsearchclient import es_client
         print '>>>>>>>>>> ElasticSearch(Singleton)'
-        print id(esclient)
-        print id(esclient.esclient)
+        print id(es_client)
         print '>>>>>>>>>> ElasticSearch(Singleton)'
-        search = esclient.esclient.search(
+        search = es_client.search(
             index='douban',
             doc_type='movie',
             query=dsl,
@@ -219,6 +206,8 @@ class RedisView(View):
         所以只要将所需要的属性和方法，直接暴露在模块中变成模块的全局变量和全局方法即可！
         """
         from redisclient.redisclient import redis_db
-        redis_client_id = id(redis_db)
-        ret = 'redis_client_id: %s' % redis_client_id
+        print '>>>>>>>>>> StrictRedis(Singleton)'
+        print id(redis_db)
+        print '>>>>>>>>>> StrictRedis(Singleton)'
+        ret = 'redis_client_id: %s' % id(redis_db)
         return HttpResponse(ret)

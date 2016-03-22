@@ -38,6 +38,9 @@ class Context(object):
     """
     def __init__(self):
         self.state = None
+        self.state_a = State_concrete_A()
+        self.state_b = State_concrete_B()
+        self.state_c = State_concrete_C()
         self._data = None
     @property
     def data(self):
@@ -45,18 +48,22 @@ class Context(object):
     @data.setter
     def data(self, value):
         self._data = value
+    @data.deleter
+    def data(self):
+        del self._data
     def set_state(self, state):
-        self.state = state
+        if not self.state == state:
+            self.state = state
     def request(self):
         if self.data <= 10:
             if not isinstance(self.state, State_concrete_A):
-                self.set_state(State_concrete_A())
+                self.set_state(self.state_a)
         elif self.data <= 20:
             if not isinstance(self.state, State_concrete_B):
-                self.set_state(State_concrete_B())
+                self.set_state(self.state_b)
         else:
             if not isinstance(self.state, State_concrete_C):
-                self.set_state(State_concrete_C())
+                self.set_state(self.state_c)
         print 'requesting state: %s %s' % (self.state, id(self.state))
         self.state.handle(self)
 
@@ -87,29 +94,26 @@ class State_concrete_C(State_abstract):
     """
     def handle(self, context):
         print 'handle state C'
-        print self
-        print context
 
 
 context = Context()
 
 context.data = 1
 context.request()
+# requesting state: <__main__.State_concrete_A object at 0x103601110> 4351594768
 # handle state A
 
 context.data = 5
 context.request()
+# requesting state: <__main__.State_concrete_A object at 0x103601110> 4351594768
 # handle state A
 
 context.data = 15
 context.request()
+# requesting state: <__main__.State_concrete_B object at 0x103601150> 4351594832
 # handle state B
 
 context.data = 25
 context.request()
+# requesting state: <__main__.State_concrete_C object at 0x103601190> 4351594896
 # handle state C
-
-"""
-??????????
-why id(A) == id(C)
-"""

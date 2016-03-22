@@ -41,29 +41,15 @@ class Context(object):
         self.state_a = State_concrete_A()
         self.state_b = State_concrete_B()
         self.state_c = State_concrete_C()
-        self._data = None
-    @property
-    def data(self):
-        return self._data
-    @data.setter
-    def data(self, value):
-        self._data = value
-    @data.deleter
-    def data(self):
-        del self._data
-    def set_state(self, state):
-        if not self.state == state:
-            self.state = state
+    def change_state(self, state):
+        self.state = state
     def request(self):
         if self.data <= 10:
-            if not isinstance(self.state, State_concrete_A):
-                self.set_state(self.state_a)
+            self.change_state(self.state_a)
         elif self.data <= 20:
-            if not isinstance(self.state, State_concrete_B):
-                self.set_state(self.state_b)
+            self.change_state(self.state_b)
         else:
-            if not isinstance(self.state, State_concrete_C):
-                self.set_state(self.state_c)
+            self.change_state(self.state_c)
         print 'requesting state: %s %s' % (self.state, id(self.state))
         self.state.handle(self)
 

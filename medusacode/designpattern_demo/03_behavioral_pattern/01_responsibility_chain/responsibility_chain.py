@@ -6,9 +6,12 @@
     很多对象由每一个对象对其下家的引用而连接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。
 
 包含两个角色
-    [抽象处理者(Handler)]定义一个请求的接口。如果需要可以定义个一个方法用来设定和返回下家对象的引用。
-    [具体处理者(ConcreteHandler)]如果可以处理就处理请求，如果不能处理，就把请求传给下家，让下家处理。
-        也就是说它处理自己能处理的请求且可以访问它的下家。
+    [AbstractHandler][抽象处理者]
+        定义了一个处理请求的方法；
+        所有的具体处理者都必须实现该抽象类；
+    [ConcreteHandler][具体处理者]
+        处理它所负责的请求，同时也可以访问它的后继者；
+        如果它能够处理该请求则处理，否则将请求传递到它的后继者；
 
 优点
     实现了请求者与处理者代码分离:
@@ -27,6 +30,8 @@ class Handler(object):
     """
     def __init__(self):
         self.successor = None
+    def handle(self, request):
+        pass
     def set_successor(self, successor):
         self.successor = successor
 

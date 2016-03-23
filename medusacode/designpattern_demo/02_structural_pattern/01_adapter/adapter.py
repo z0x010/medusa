@@ -6,15 +6,13 @@
     将一个接口转换成客户希望的另一个接口，适配器模式使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。
     适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。
 
-包含四个角色
+包含三个角色
     [Target][目标抽象类]
         定义客户要用的特定领域的接口；
     [Adaptee][适配者类]
         是被适配的角色，它定义了一个已经存在的接口，这个接口需要适配；
     [Adapter][适配器类]
         可以调用另一个接口，作为一个转换器，对适配者和抽象目标类进行适配，它是适配器模式的核心；
-    [Client][客户类]
-        针对目标抽象类进行编程，调用在目标抽象类中定义的业务方法；
 
 在类适配器模式中，适配器类实现了目标抽象类接口并继承了适配者类，并在目标抽象类的实现方法中调用所继承的适配者类的方法；
 在对象适配器模式中，适配器类继承了目标抽象类并定义了一个适配者类的对象实例，在所继承的目标抽象类方法中调用适配者类的相应业务方法。
@@ -88,19 +86,15 @@ class Adapter(Target):
         elif isinstance(self.adaptee, Human):
             return self.adaptee.speak()
 
-class Client(object):
-    """
-    客户类
-    """
-    def __init__(self):
-        self.cat = Cat()
-        self.dog = Dog()
-        self.human = Human()
-        self.animals = [Adapter(self.cat), Adapter(self.dog), Adapter(self.human)]
-    def request(self):
-        for animal in self.animals:
-            print animal.name, animal.make_noise()
 
+cat = Cat()
+dog = Dog()
+human = Human()
+animals = [Adapter(cat), Adapter(dog), Adapter(human)]
+# 针对目标抽象类进行编程,调用在目标抽象类中定义的方法:
+for animal in animals:
+    print animal.name, animal.make_noise()
 
-client = Client()
-client.request()
+# Cat meow ~
+# Dog woof !
+# Human hello ?

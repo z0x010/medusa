@@ -5,13 +5,11 @@
 原型模式(Prototype Pattern)
     用原型实例指定创建对象的种类，并且通过拷贝(复制)这些原型创建新的对象。
 
-包含三个角色
+包含二个角色
     [AbstractPrototype][抽象原型类]
         声明克隆自身的接口。
     [ConcretePrototype][具体原型类]
         实现克隆的具体操作。
-    [Client][客户类]
-        让一个原型克隆自身，从而获得一个新的对象。
 
 在我们应用程序可能有某些对象的结构比较复杂，但是我们又需要频繁的使用它们，
 如果这个时候我们来不断的新建这个对象势必会大大损耗系统内存的，
@@ -53,43 +51,18 @@ class Prototype_concrete(Prototype_abstract):
         new_object.__dict__.update(**kwargs)
         return new_object
 
-class Client(object):
-    """
-    客户类
-    """
-    def __init__(self):
-        self._prototype = None
-    @property
-    def prototype(self):
-        return self._prototype
-    @prototype.setter
-    def prototype(self, prototype):
-        self._prototype = prototype
-    @prototype.deleter
-    def prototype(self):
-        del self._prototype
-    def clone(self, **kwargs):
-        if self.prototype:
-            return self.prototype.clone(**kwargs)
 
-
-client = Client()
-
+# 让一个原型克隆自身,从而获得一个新的对象:
 prototype_0 = Prototype_concrete()
+prototype_a = prototype_0.clone(a='A')
+prototype_b = prototype_a.clone(b='B')
+prototype_c = prototype_b.clone(c='C')
+
 print id(prototype_0), prototype_0.__dict__
-# 4419479056 {}
-
-client.prototype = prototype_0
-prototype_a = client.clone(a='A')
 print id(prototype_a), prototype_a.__dict__
-# 4419479312 {'a': 'A'}
-
-client.prototype = prototype_a
-prototype_b = client.clone(b='B')
 print id(prototype_b), prototype_b.__dict__
-# 4419479376 {'a': 'A', 'b': 'B'}
-
-client.prototype = prototype_b
-prototype_c = client.clone(c='C')
 print id(prototype_c), prototype_c.__dict__
-# 4419479440 {'a': 'A', 'c': 'C', 'b': 'B'}
+# 4559790800 {}
+# 4559790992 {'a': 'A'}
+# 4559791056 {'a': 'A', 'b': 'B'}
+# 4559791120 {'a': 'A', 'c': 'C', 'b': 'B'}

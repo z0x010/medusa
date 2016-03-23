@@ -29,22 +29,65 @@
     让客户能够忽略不同对象层次的变化，客户端可以针对抽象构件编程，无须关心对象层次结构的细节。
 """
 
-
 class Component(object):
     """
     对象声明接口
     """
-    pass
+    def __init__(self, name):
+        self.name = name
+    def add(self, component):
+        pass
+    def remove(self, component):
+        pass
+    def display(self, depth):
+        pass
 
 class Leaf(Component):
     """
     叶子对象
     """
-    pass
+    def add(self, component):
+        print '(Leaf can not add)'
+    def remove(self, component):
+        print '(Leaf can not remove)'
+    def display(self, depth):
+        print '|-----|' * depth + '[(%s) %s]' % (self.__class__.__name__, self.name)
 
 class Composite(Component):
     """
     容器对象
     """
-    pass
+    def __init__(self, name):
+        self.name = name
+        self.children = []
+    def add(self, component):
+        self.children.append(component)
+    def remove(self, component):
+        if component in self.children:
+            self.children.remove(component)
+    def display(self, depth):
+        print '|-----|' * depth + '[(%s) %s]' % (self.__class__.__name__, self.name)
+        for child in self.children:
+            child.display(depth+1)
 
+
+node_0 = Composite('A')
+node_1_1 = Leaf('B')
+node_1_2 = Composite('C')
+node_1_3 = Leaf('D')
+node_0.add(node_1_1)
+node_0.add(node_1_2)
+node_0.add(node_1_3)
+
+node_2_1 = Leaf('E')
+node_2_2 = Leaf('F')
+node_1_2.add(node_2_1)
+node_1_2.add(node_2_2)
+
+node_0.display(0)
+# [(Composite) A]
+# |-----|[(Leaf) B]
+# |-----|[(Composite) C]
+# |-----||-----|[(Leaf) E]
+# |-----||-----|[(Leaf) F]
+# |-----|[(Leaf) D]

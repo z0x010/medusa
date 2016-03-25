@@ -41,7 +41,7 @@ pythonic: object-oriented programming, functional programming
 |medusaspider|.|spider(crawler) built with scrapy |利用 scrapy 编写的爬虫(爬取豆瓣电影精选和部分艺龙酒店)
 |medusasearch|.|index and search using elasticsearch|利用 elasticsearch 索引，利用 python 客户端 pyelasticsearch 搜索|
 |medusalib|.|function library (functional client)|网络服务用到的库|
-|medusacode|designpattern_demo|python design pattern|Python 实现的设计模式，持续更新中...|
+|medusacode|designpattern_demo|python design pattern|Python 实现的设计模式|
 |medusacode|jieba_demo|Chinese characters segmentation|中文分词，用来在 web 服务的搜索功能中处理搜索输入|
 |medusacode|splinter_demo|automatic test for web service using splinter|利用 splinter 自动化测试网络服务|
 |medusacode|data_science|data-science-from-scratch|Joel Grus 著《Data Science from Scratch》阅读笔记和代码|

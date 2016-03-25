@@ -70,6 +70,14 @@ class Adapter(Target):
     def __init__(self, adaptee):
         self.adaptee = adaptee
     """
+    object.__getattribute__(self, name)
+        Called unconditionally to implement attribute accesses for instances of the class.
+        If the class also defines __getattr__(), the latter will not be called unless
+        __getattribute__() either calls it explicitly or raises an AttributeError.
+        This method should return the (computed) attribute value or raise an AttributeError exception.
+        In order to avoid infinite recursion in this method, its implementation should always
+        call the base class method with the same name to access any attributes it needs,
+        for example, object.__getattribute__(self, name).
     object.__getattr__(self, name)
         Called when an attribute lookup has not found the attribute in the usual places
         (i.e. it is not an instance attribute nor is it found in the class tree for self).

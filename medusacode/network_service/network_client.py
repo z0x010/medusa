@@ -25,11 +25,11 @@ client_socket.connect(
 # send
 data_send = 'hello there ~'
 bytes_sent = client_socket.send(data_send)
-print '(sent) %s %s bytes' % (data_send, bytes_sent)
+print '[%s](sent) %s %s bytes' % (datetime.datetime.now(), data_send, bytes_sent)
 
 # recv
 data_received = client_socket.recv(4096)
-print '(received) %s' % data_received
+print '[%s](received) %s' % (datetime.datetime.now(), data_received)
 
 # close
 client_socket.close()

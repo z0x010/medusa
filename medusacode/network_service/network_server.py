@@ -23,21 +23,21 @@ server_socket.bind(
 server_socket.listen(
     1,
 )
-print '(listen) %s %s' % (HOST, PORT)
+print '[%s](listen) %s %s' % (datetime.datetime.now(), HOST, PORT)
 
 while True:
     # accept
     client_connection, client_address = server_socket.accept()
-    print '(accepted) %s %s' % (client_connection, client_address)
+    print '[%s](accepted) %s %s' % (datetime.datetime.now(), client_connection, client_address)
 
     # recv
     data_received = client_connection.recv(4096)
-    print '(received) %s' % data_received
+    print '[%s](received) %s' % (datetime.datetime.now(), data_received)
 
     # send
     data_send = 'server time: %s' % datetime.datetime.now()
     client_connection.sendall(data_send)
-    print '(sent) %s' % data_send
+    print '[%s](sent) %s' % (datetime.datetime.now(), data_send)
 
     # close
     client_connection.close()

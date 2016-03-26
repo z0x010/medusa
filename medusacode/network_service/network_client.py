@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
 
-"""
-socket.connect(address)
-    Connect to a remote socket at address.
-    (The format of address depends on the address family.)
-"""
-
 import socket
 
 HOST = '127.0.0.1'

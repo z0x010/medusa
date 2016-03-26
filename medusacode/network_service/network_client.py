@@ -2,6 +2,7 @@
 # coding:utf-8
 
 import socket
+import datetime
 
 HOST = '127.0.0.1'
 PORT = 9999
@@ -19,9 +20,9 @@ client_socket.connect(
 # send
 data_send = 'hello there ~'
 bytes_sent = client_socket.send(data_send)
-print 'send %s %s bytes' % (data_send, bytes_sent)
+print '(sent) %s %s bytes' % (data_send, bytes_sent)
 # recv
 data_received = client_socket.recv(4096)
-print 'recv %s' % data_received
+print '(received) %s' % data_received
 # close
 client_socket.close()

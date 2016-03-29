@@ -15,18 +15,18 @@ In multiprocessing,
 processes are spawned by creating a Process object and then calling its start() method.
 Process follows the API of threading.Thread.
 """
-def info(title):
-    print title
-    print os.getpid(), os.getppid()
-
-def func(name):
-    info('func')
-    print 'hello', name
-
-info('main')
-process = Process(target=func, args=('Peter',))
-process.start()
-process.join()
+# def info(title):
+#     print title
+#     print os.getpid(), os.getppid()
+#
+# def func(name):
+#     info('func')
+#     print 'hello', name
+#
+# info('main')
+# process = Process(target=func, args=('Peter',))
+# process.start()
+# process.join()
 print '----------------------------------------------------------------------------------------------------'
 """
 Exchanging objects between processes
@@ -39,14 +39,14 @@ print '-------------------------------------------------------------------------
 The Queue class is a near clone of Queue.Queue.
 Queues are thread and process safe.
 """
-def f(q):
-    q.put('12345')
-
-q = Queue()
-p = Process(target=f, args=(q,))
-p.start()
-print q.get()
-p.join()
+# def f(q):
+#     q.put('12345')
+#
+# q = Queue()
+# p = Process(target=f, args=(q,))
+# p.start()
+# print q.get()
+# p.join()
 print '----------------------------------------------------------------------------------------------------'
 """
 [2] Pipe
@@ -57,15 +57,15 @@ Note that data in a pipe may become corrupted if two processes (or threads) try 
 read from or write to the same end of the pipe at the same time.
 Of course there is no risk of corruption from processes using different ends of the pipe at the same time.
 """
-def f(conn):
-    conn.send('12345')
-    conn.close()
-
-parent_conn, child_conn = Pipe()
-p = Process(target=f, args=(child_conn,))
-p.start()
-print parent_conn.recv()
-p.join()
+# def f(conn):
+#     conn.send('12345')
+#     conn.close()
+#
+# parent_conn, child_conn = Pipe()
+# p = Process(target=f, args=(child_conn,))
+# p.start()
+# print parent_conn.recv()
+# p.join()
 print '----------------------------------------------------------------------------------------------------'
 """
 Synchronization between processes

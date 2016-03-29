@@ -31,6 +31,7 @@ def worker():
         time.sleep(0.5)
     print '..........(worker stop)'
 
+
 print '..........(main start)'
 process = Process(target=worker, args=(), kwargs={})
 print '[main](pid:%s ppid:%s)' % (os.getpid(), os.getppid())

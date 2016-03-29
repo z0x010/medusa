@@ -22,6 +22,7 @@ class MyProcess(Process):
             time.sleep(0.5)
         print '..........(worker stop)'
 
+
 print '..........(main start)'
 process = MyProcess()
 print '[main](pid:%s ppid:%s)' % (os.getpid(), os.getppid())

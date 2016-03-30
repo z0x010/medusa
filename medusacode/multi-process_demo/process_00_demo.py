@@ -5,9 +5,12 @@
 multiprocessing
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, Value, Array, Manager, Pool
+from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
 import os
 import time
+import datetime
+import random
+import Queue as QUEUE
 
 print '----------------------------------------------------------------------------------------------------'
 """
@@ -154,12 +157,12 @@ Using a pool of workers
 The Pool class represents a pool of worker processes.
 It has methods which allows tasks to be offloaded to the worker processes in a few different ways.
 """
-def f(x):
-    return x*x
-
-pool = Pool(processes=4)
-result = pool.apply_async(f, [10])
-
-print result.get(timeout=1)
-print pool.map(f, range(10))
+# def f(x):
+#     return x*x
+#
+# pool = Pool(processes=4)
+# result = pool.apply_async(f, [10])
+#
+# print result.get(timeout=1)
+# print pool.map(f, range(10))
 print '----------------------------------------------------------------------------------------------------'

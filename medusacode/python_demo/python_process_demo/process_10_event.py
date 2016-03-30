@@ -51,9 +51,32 @@ import random
 import Queue as QUEUE
 
 
+def worker(event):
+    print '..........(worker start)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
+    time.sleep(random.random())
+    event.wait()
+    print '==========(internal flag is true)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
+    time.sleep(random.random())
+    print '..........(worker stop)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
 
 
+event = Event()
+print event.is_set()
+# False
 
+process_1 = Process(target=worker, args=(event,))
+process_2 = Process(target=worker, args=(event,))
+process_1.start()
+process_2.start()
+# ..........(worker start) [worker](pid:5594 ppid:5593)
+# ..........(worker start) [worker](pid:5595 ppid:5593)
 
+time.sleep(2)
+event.set()
+# ==========(internal flag is true) [worker](pid:5595 ppid:5593)
+# ==========(internal flag is true) [worker](pid:5594 ppid:5593)
+# ..........(worker stop) [worker](pid:5595 ppid:5593)
+# ..........(worker stop) [worker](pid:5594 ppid:5593)
 
-
+print event.is_set()
+# True

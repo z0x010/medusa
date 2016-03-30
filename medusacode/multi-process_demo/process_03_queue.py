@@ -37,7 +37,7 @@ class multiprocessing.Queue([maxsize])
         else raise the Queue.Empty exception (timeout is ignored in that case).
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, Value, Array, Manager, Pool
+from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
 import os
 import time
 import datetime

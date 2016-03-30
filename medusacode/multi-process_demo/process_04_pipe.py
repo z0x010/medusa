@@ -34,7 +34,7 @@ class multiprocessing.Connection
         Raises EOFError if there is nothing left to receive and the other end was closed.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, Value, Array, Manager, Pool
+from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
 import os
 import time
 import datetime

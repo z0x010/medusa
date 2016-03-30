@@ -41,7 +41,11 @@ def worker(lock):
     print '..........(worker%s stop)' % os.getpid()
 
 
-lock = Lock()
+# [1] Lock: any thread may release it.
+# lock = Lock()
+# [2] RLock: must be released by the thread that acquired it.
+lock = RLock()
+
 for n in range(3):
     Process(target=worker, args=(lock,)).start()
 

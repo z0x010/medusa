@@ -42,17 +42,21 @@ import random
 import Queue as QUEUE
 
 def worker_produce(pipe):
+    print '..........(worker_produce start)'
     for n in range(5):
+        time.sleep(random.random())
         item = random.randrange(0, 100, 1)
         pipe.send(item)
         print '[worker_produce](pid:%s ppid:%s)' % (os.getpid(), os.getppid()), '+ produce item: %s' % item
-        time.sleep(random.random())
+    print '..........(worker_produce stop)'
 
 def worker_consume(pipe):
+    print '..........(worker_consume start)'
     for n in range(5):
+        time.sleep(random.random())
         item = pipe.recv()
         print '[worker_consume](pid:%s ppid:%s)' % (os.getpid(), os.getppid()), '- consume item: %s' % item
-        time.sleep(random.random())
+    print '..........(worker_consume stop)'
 
 
 pipe_1, pipe_2 = Pipe()
@@ -63,13 +67,18 @@ process_consume.start()
 process_produce.join()
 process_consume.join()
 
-# [worker_produce](pid:7214 ppid:7213) + produce item: 96
-# [worker_consume](pid:7215 ppid:7213) - consume item: 96
-# [worker_produce](pid:7214 ppid:7213) + produce item: 18
-# [worker_produce](pid:7214 ppid:7213) + produce item: 58
-# [worker_consume](pid:7215 ppid:7213) - consume item: 18
-# [worker_produce](pid:7214 ppid:7213) + produce item: 60
-# [worker_consume](pid:7215 ppid:7213) - consume item: 58
-# [worker_produce](pid:7214 ppid:7213) + produce item: 41
-# [worker_consume](pid:7215 ppid:7213) - consume item: 60
-# [worker_consume](pid:7215 ppid:7213) - consume item: 41
+# ..........(worker_produce start)
+# ..........(worker_consume start)
+# [worker_produce](pid:1927 ppid:1926) + produce item: 55
+# [worker_consume](pid:1928 ppid:1926) - consume item: 55
+# [worker_produce](pid:1927 ppid:1926) + produce item: 36
+# [worker_consume](pid:1928 ppid:1926) - consume item: 36
+# [worker_produce](pid:1927 ppid:1926) + produce item: 24
+# [worker_consume](pid:1928 ppid:1926) - consume item: 24
+# [worker_produce](pid:1927 ppid:1926) + produce item: 83
+# [worker_produce](pid:1927 ppid:1926) + produce item: 43
+# ..........(worker_produce stop)
+# [worker_consume](pid:1928 ppid:1926) - consume item: 83
+# [worker_consume](pid:1928 ppid:1926) - consume item: 43
+# ..........(worker_consume stop)
+

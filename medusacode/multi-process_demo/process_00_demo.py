@@ -74,16 +74,16 @@ Synchronization between processes
 multiprocessing contains equivalents of all the synchronization primitives from threading.
 For instance one can use a lock to ensure that only one process prints to standard output at a time:
 """
-def f(l, i):
-    l.acquire()
-    print 'hello', i
-    l.release()
-
-lock = Lock()
-for n in range(10):
-    Process(target=f, args=(lock, n)).start()
-
-time.sleep(0.1)
+# def f(l, i):
+#     l.acquire()
+#     print 'hello', i
+#     l.release()
+#
+# lock = Lock()
+# for n in range(10):
+#     Process(target=f, args=(lock, n)).start()
+#
+# time.sleep(0.1)
 print '----------------------------------------------------------------------------------------------------'
 """
 Sharing state between processes
@@ -101,20 +101,20 @@ print '-------------------------------------------------------------------------
 [1] Shared memory
 Data can be stored in a shared memory map using Value or Array.
 """
-def f(v, a):
-    v.value = 321
-    for i in range(len(a)):
-        a[i] = -a[i]
-
-value = Value('d', 123)  # (C Type) double
-array = Array('i', range(10))  # (C Type) signed int
-
-process = Process(target=f, args=(value, array))
-process.start()
-process.join()
-
-print value.value
-print array[:]
+# def f(v, a):
+#     v.value = 321
+#     for i in range(len(a)):
+#         a[i] = -a[i]
+#
+# value = Value('d', 123)  # (C Type) double
+# array = Array('i', range(10))  # (C Type) signed int
+#
+# process = Process(target=f, args=(value, array))
+# process.start()
+# process.join()
+#
+# print value.value
+# print array[:]
 print '----------------------------------------------------------------------------------------------------'
 """
 [2] Server process
@@ -129,23 +129,23 @@ they can be made to support arbitrary object types.
 Also, a single manager can be shared by processes on different computers over a network.
 They are, however, slower than using shared memory.
 """
-def f(d, l):
-    d[1] = '1'
-    d['2'] = 2
-    d[3] = None
-    l.reverse()
-
-manager = Manager()
-
-d = manager.dict()
-l = manager.list(range(10))
-
-p = Process(target=f, args=(d, l))
-p.start()
-p.join()
-
-print d
-print l
+# def f(d, l):
+#     d[1] = '1'
+#     d['2'] = 2
+#     d[3] = None
+#     l.reverse()
+#
+# manager = Manager()
+#
+# d = manager.dict()
+# l = manager.list(range(10))
+#
+# p = Process(target=f, args=(d, l))
+# p.start()
+# p.join()
+#
+# print d
+# print l
 print '----------------------------------------------------------------------------------------------------'
 """
 Using a pool of workers

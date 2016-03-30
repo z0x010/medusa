@@ -2,11 +2,12 @@
 # coding:utf-8
 
 """
-A semaphore manages an internal counter
-    which is decremented by each acquire() call,
-    and incremented by each release() call.
-The counter can never go below zero;
-when acquire() finds that it is zero, it blocks, waiting until some other thread calls release().
+Semaphore Objects
+    A semaphore manages an internal counter
+        which is decremented by each acquire() call,
+        and incremented by each release() call.
+    The counter can never go below zero;
+    when acquire() finds that it is zero, it blocks, waiting until some other thread calls release().
 """
 """
 class multiprocessing.Semaphore([value])

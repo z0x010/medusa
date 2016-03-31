@@ -41,27 +41,27 @@ import datetime
 import random
 import Queue as QUEUE
 
-def worker_produce(pipe):
+def worker_produce(connection):
     print '..........(worker_produce start)'
     for n in range(5):
         time.sleep(random.random())
         item = random.randrange(0, 100, 1)
-        pipe.send(item)
+        connection.send(item)
         print '[worker_produce](pid:%s ppid:%s)' % (os.getpid(), os.getppid()), '+ produce item: %s' % item
     print '..........(worker_produce stop)'
 
-def worker_consume(pipe):
+def worker_consume(connection):
     print '..........(worker_consume start)'
     for n in range(5):
         time.sleep(random.random())
-        item = pipe.recv()
+        item = connection.recv()
         print '[worker_consume](pid:%s ppid:%s)' % (os.getpid(), os.getppid()), '- consume item: %s' % item
     print '..........(worker_consume stop)'
 
 
-pipe_1, pipe_2 = Pipe()
-process_produce = Process(target=worker_produce, args=(pipe_1,))
-process_consume = Process(target=worker_consume, args=(pipe_2,))
+conn_1, conn_2 = Pipe()
+process_produce = Process(target=worker_produce, args=(conn_1,))
+process_consume = Process(target=worker_consume, args=(conn_2,))
 process_produce.start()
 process_consume.start()
 process_produce.join()

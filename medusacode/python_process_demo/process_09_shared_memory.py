@@ -58,7 +58,8 @@ import datetime
 import random
 import Queue as QUEUE
 
-def worker(value, array):
+def worker(value, array, lock):
+    lock.acquire()
     print '..........(worker start)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
     time.sleep(random.random())
     value.value += 0.1
@@ -67,25 +68,29 @@ def worker(value, array):
     print value.value
     print array[:]
     print '..........(worker stop)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
+    lock.release()
 
 
 value = Value('d', 1.0)  # (C Type) double
 array = Array('i', range(10))  # (C Type) signed int
+lock = RLock()
 
-process_1 = Process(target=worker, args=(value, array))
-process_2 = Process(target=worker, args=(value, array))
+process_1 = Process(target=worker, args=(value, array, lock))
+process_2 = Process(target=worker, args=(value, array, lock))
 process_1.start()
 process_2.start()
 process_1.join()
 process_2.join()
-# ..........(worker start) [worker](pid:3095 ppid:3094)
-# ..........(worker start) [worker](pid:3096 ppid:3094)
+
+# ..........(worker start) [worker](pid:2944 ppid:2943)
 # 1.1
 # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
-# ..........(worker stop) [worker](pid:3096 ppid:3094)
+# ..........(worker stop) [worker](pid:2944 ppid:2943)
+# ..........(worker start) [worker](pid:2945 ppid:2943)
 # 1.2
 # [0, 4, 8, 12, 16, 20, 24, 28, 32, 36]
-# ..........(worker stop) [worker](pid:3095 ppid:3094)
+# ..........(worker stop) [worker](pid:2945 ppid:2943)
+
 
 print value
 print value.value

@@ -131,15 +131,15 @@ process_consume.join()
 
 # ..........(worker_produce start)
 # ..........(worker_consume start)
-# [worker_produce](pid:2224 ppid:2223) + produce item: 97
-# [worker_consume](pid:2225 ppid:2223) - consume item: 97
-# [worker_produce](pid:2224 ppid:2223) + produce item: 81
-# [worker_consume](pid:2225 ppid:2223) - consume item: 81
-# [worker_produce](pid:2224 ppid:2223) + produce item: 43
-# [worker_produce](pid:2224 ppid:2223) + produce item: 37
-# [worker_consume](pid:2225 ppid:2223) - consume item: 43
-# [worker_produce](pid:2224 ppid:2223) + produce item: 24
+# [worker_produce](pid:3140 ppid:3139) + produce item: 76
+# [worker_consume](pid:3141 ppid:3139) - consume item: 76
+# [worker_produce](pid:3140 ppid:3139) + produce item: 6
+# [worker_consume](pid:3141 ppid:3139) - consume item: 6
+# [worker_produce](pid:3140 ppid:3139) + produce item: 26
+# [worker_consume](pid:3141 ppid:3139) - consume item: 26
+# [worker_produce](pid:3140 ppid:3139) + produce item: 24
+# [worker_produce](pid:3140 ppid:3139) + produce item: 9
 # ..........(worker_produce stop)
-# [worker_consume](pid:2225 ppid:2223) - consume item: 37
-# [worker_consume](pid:2225 ppid:2223) - consume item: 24
+# [worker_consume](pid:3141 ppid:3139) - consume item: 24
+# [worker_consume](pid:3141 ppid:3139) - consume item: 9
 # ..........(worker_consume stop)

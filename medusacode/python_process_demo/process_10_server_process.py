@@ -43,32 +43,36 @@ import datetime
 import random
 import Queue as QUEUE
 
-def worker(l, d):
+def worker(l, d, lock):
+    lock.acquire()
     print '..........(worker start)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
     l.append(random.randrange(0, 100, 1))
     d.update({random.choice('abcdefghijklmnopqrstuvwxyz'): random.randrange(0, 100, 1)})
     print l
     print d
     print '..........(worker stop)', '[worker](pid:%s ppid:%s)' % (os.getpid(), os.getppid())
+    lock.release()
 
 
 manager = Manager()
 proxy_list = manager.list([])
 proxy_dict = manager.dict({})
-process_1 = Process(target=worker, args=(proxy_list, proxy_dict))
-process_2 = Process(target=worker, args=(proxy_list, proxy_dict))
+lock = RLock()
+
+process_1 = Process(target=worker, args=(proxy_list, proxy_dict, lock))
+process_2 = Process(target=worker, args=(proxy_list, proxy_dict, lock))
 process_1.start()
 process_2.start()
 process_1.join()
 process_2.join()
-# ..........(worker start) [worker](pid:3319 ppid:3317)
-# ..........(worker start) [worker](pid:3320 ppid:3317)
-# [13]
-# {'l': 52}
-# ..........(worker stop) [worker](pid:3319 ppid:3317)
-# [13, 44]
-# {'l': 52, 'v': 88}
-# ..........(worker stop) [worker](pid:3320 ppid:3317)
+# ..........(worker start) [worker](pid:3222 ppid:3220)
+# [69]
+# {'u': 82}
+# ..........(worker stop) [worker](pid:3222 ppid:3220)
+# ..........(worker start) [worker](pid:3223 ppid:3220)
+# [69, 22]
+# {'r': 79, 'u': 82}
+# ..........(worker stop) [worker](pid:3223 ppid:3220)
 
 print proxy_list
 print proxy_dict

@@ -7,7 +7,10 @@ processes are spawned by creating a Process object and then calling its start() 
 (Process follows the API of threading.Thread)
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import os
 import time
 import datetime

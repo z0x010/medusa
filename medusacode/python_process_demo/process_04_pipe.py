@@ -34,7 +34,10 @@ class multiprocessing.Connection
         Raises EOFError if there is nothing left to receive and the other end was closed.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import os
 import time
 import datetime
@@ -81,4 +84,3 @@ process_consume.join()
 # [worker_consume](pid:1928 ppid:1926) - consume item: 83
 # [worker_consume](pid:1928 ppid:1926) - consume item: 43
 # ..........(worker_consume stop)
-

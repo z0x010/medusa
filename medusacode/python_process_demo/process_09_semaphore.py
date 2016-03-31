@@ -40,7 +40,10 @@ class threading.Semaphore([value])
         wake up that thread.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool, Semaphore, Event
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import multiprocessing
 import os
 import time

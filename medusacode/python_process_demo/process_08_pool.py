@@ -78,7 +78,10 @@ class multiprocessing.pool.AsyncResult
         Will raise AssertionError if the result is not ready.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import os
 import time
 import datetime

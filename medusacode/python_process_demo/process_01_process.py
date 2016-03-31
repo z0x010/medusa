@@ -19,7 +19,10 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
         By default, no arguments are passed to target.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import os
 import time
 import datetime

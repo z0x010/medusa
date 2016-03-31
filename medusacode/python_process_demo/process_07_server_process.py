@@ -33,7 +33,10 @@ multiprocessing.Manager()
     has methods which will create shared objects and return corresponding proxies.
 """
 
-from multiprocessing import Process, Queue, Pipe, Lock, RLock, Value, Array, Manager, Pool
+from multiprocessing import Process
+from multiprocessing import Queue, Pipe
+from multiprocessing import Lock, RLock, Event, Semaphore, Condition
+from multiprocessing import Value, Array, Manager, Pool
 import os
 import time
 import datetime

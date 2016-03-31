@@ -2,25 +2,90 @@
 # coding:utf-8
 
 """
-Synchronization between processes
+Lock Objects
+    A primitive lock is a synchronization primitive that is not owned by a particular thread when locked.
+    In Python, it is currently the lowest level synchronization primitive available,
+    implemented directly by the thread extension module.
+
+    A primitive lock is in one of two states, “locked” or “unlocked”.
+    It is created in the unlocked state.
+    It has two basic methods, acquire() and release().
+    When the state is unlocked, acquire() changes the state to locked and returns immediately.
+    When the state is locked, acquire() blocks until a call to release() in another thread changes it to unlocked,
+    then the acquire() call resets it to locked and returns.
+    The release() method should only be called in the locked state;
+    it changes the state to unlocked and returns immediately.
+    If an attempt is made to release an unlocked lock, a ThreadError will be raised.
+
+    When more than one thread is blocked in acquire() waiting for the state to turn to unlocked,
+    only one thread proceeds when a release() call resets the state to unlocked;
+    which one of the waiting threads proceeds is not defined, and may vary across implementations.
+
+    All methods are executed atomically.
 """
 """
 multiprocessing contains equivalents of all the synchronization primitives from threading.
-"""
-"""
+
 class multiprocessing.Lock
     A non-recursive lock object: a clone of threading.Lock.
 class multiprocessing.RLock
     A recursive lock object: a clone of threading.RLock.
+
 threading.Lock()
     A factory function that returns a new primitive lock object.
     Once a thread has acquired it, subsequent attempts to acquire it block, until it is released;
     any thread may release it.
+
+    Lock.acquire([blocking])
+        Acquire a lock, blocking or non-blocking.
+        When invoked with the blocking argument set to True (the default), block until the lock is unlocked,
+        then set it to locked and return True.
+        When invoked with the blocking argument set to False, do not block.
+        If a call with blocking set to True would block, return False immediately;
+        otherwise, set the lock to locked and return True.
+
+    Lock.release()
+        Release a lock.
+        When the lock is locked, reset it to unlocked, and return.
+        If any other threads are blocked waiting for the lock to become unlocked, allow exactly one of them to proceed.
+        When invoked on an unlocked lock, a ThreadError is raised.
+        There is no return value.
+
 threading.RLock()
     A factory function that returns a new reentrant lock object.
     A reentrant lock must be released by the thread that acquired it.
     Once a thread has acquired a reentrant lock, the same thread may acquire it again without blocking;
     the thread must release it once for each time it has acquired it.
+
+    RLock.acquire([blocking=1])
+        Acquire a lock, blocking or non-blocking.
+        When invoked without arguments:
+            if this thread already owns the lock, increment the recursion level by one, and return immediately.
+            Otherwise, if another thread owns the lock, block until the lock is unlocked.
+            Once the lock is unlocked (not owned by any thread), then grab ownership,
+            set the recursion level to one, and return.
+            If more than one thread is blocked waiting until the lock is unlocked,
+            only one at a time will be able to grab ownership of the lock.
+            There is no return value in this case.
+        When invoked with the blocking argument set to true,
+            do the same thing as when called without arguments, and return true.
+        When invoked with the blocking argument set to false,
+            do not block.
+            If a call without an argument would block, return false immediately;
+            otherwise, do the same thing as when called without arguments, and return true.
+
+    RLock.release()
+        Release a lock, decrementing the recursion level.
+        If after the decrement it is zero, reset the lock to unlocked (not owned by any thread),
+        and if any other threads are blocked waiting for the lock to become unlocked,
+        allow exactly one of them to proceed.
+        If after the decrement the recursion level is still nonzero,
+        the lock remains locked and owned by the calling thread.
+
+        Only call this method when the calling thread owns the lock.
+        A RuntimeError is raised if this method is called when the lock is unlocked.
+
+        There is no return value.
 """
 
 from multiprocessing import Process

@@ -23,7 +23,6 @@ signal.pause()
     the appropriate handler will then be called.
     Returns nothing.
 
-
 signal.getsignal(signalnum)
     Return the current signal handler for the signal signalnum.
     The returned value may be a callable Python object, or one of the special values:
@@ -33,7 +32,6 @@ signal.getsignal(signalnum)
     signal.SIG_IGN means that the signal was previously ignored,
     signal.SIG_DFL means that the default way of handling the signal was previously in use,
     None means that the previous signal handler was not installed from Python.
-
 """
 
 import signal

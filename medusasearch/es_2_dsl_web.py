@@ -8,14 +8,12 @@
 import json
 import requests
 
-
 def es_search(es_dsl):
     response = requests.get(url='http://192.168.100.100:8000/es/search/', params={'dsl': json.dumps(es_dsl)})
     # ret = response.json()  # <type 'dict'>
     # ret = response.text  # <type 'unicode'>
     # ret = response.content  # <type 'str'>
     return response.content
-
 
 # ---------------------------------------------------------------------------------------- [Filter]
 # term Filter
@@ -214,4 +212,3 @@ dsl = {
 # ---------------------------------------------------------------------------------------- [Filter + Query]
 ret = es_search(dsl)
 print ret
-

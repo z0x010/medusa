@@ -5,8 +5,8 @@
 生成器(generator)
 生成器函数(generator function)
 """
-
 """
+Generator-iterator methods
 
 generator.next()
     Starts the execution of a generator function or resumes it at the last executed yield expression.
@@ -39,6 +39,11 @@ generator.close()
     close() does nothing if the generator has already exited due to an exception or normal exit.
 """
 
+"""
+generator.next() == generator.send(None)
+"""
+
+
 def generator_function(value=None):
     print 'next() is called for the first time'
     try:
@@ -70,7 +75,10 @@ print generator.next()
 print generator.throw(TypeError, 'spam')
 # <type 'exceptions.TypeError'> spam
 # spam
-print generator.close()
+print generator.next()
+# ...... value= None
 # None
-
+close = generator.close()
 # do not forget to call close()
+print close
+# None

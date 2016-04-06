@@ -23,13 +23,15 @@ l = range(6)
 ll = functools.reduce(func_reduce, l)
 lll = functools.reduce(func_reduce, l, 100)
 print l
+# [0, 1, 2, 3, 4, 5]
 print ll
+# 15
 print lll
+# 115
 print '--------------------------------------------------------------------------------------------------'
 
 
 """
-
 functools.partial(func[,*args][, **keywords])
     Return a new partial object which when called will behave like
     func called with the positional arguments args and keyword arguments keywords.
@@ -105,3 +107,29 @@ functools.wraps(wrapped[, assigned][, updated])
     This is a convenience function for invoking update_wrapper() as a function decorator when defining a wrapper function.
     It is equivalent to partial(update_wrapper, wrapped=wrapped, assigned=assigned, updated=updated).
 """
+print '--------------------------------------------------------------------------------------------------'
+def my_decorator(f):
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        print '(Calling decorated function)'
+        return f(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+def func():
+    """
+    doc_string of func
+    """
+    print '(Calling original function)'
+
+
+func()
+# (Calling decorated function)
+# (Calling original function)
+print func.__name__
+# func
+print func.__module__
+# __main__
+print func.__doc__
+# doc_string of func
+print '--------------------------------------------------------------------------------------------------'

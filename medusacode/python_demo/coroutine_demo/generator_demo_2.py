@@ -56,14 +56,21 @@ def generator_function(value=None):
 
 generator = generator_function(1)
 print generator.next()
+# next() is called for the first time
 # 1
 print generator.next()
+# ...... value= None
 # None
 print generator.send(22)
+# ...... value= 22
 # 22
 print generator.next()
+# ...... value= None
 # None
 print generator.throw(TypeError, 'spam')
+# <type 'exceptions.TypeError'> spam
 # spam
 print generator.close()
 # None
+
+# do not forget to call close()

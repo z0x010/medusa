@@ -12,8 +12,12 @@ generator_1 = (n for n in xrange(5))
 print type(generator_1)  # <type 'generator'>
 print generator_1  # <generator object <genexpr> at 0x10ca93b40>
 
+# [1]
 for item in generator_1:
     print item
+# [2]
+# for i in range(5):
+#     print generator_1.next()
 
 """
 生成器函数(generator function)
@@ -28,6 +32,10 @@ generator_2 = generator_function()
 print type(generator_2)  # <type 'generator'>
 print generator_2  # <generator object generator_function at 0x109e45dc0>
 
+# [1]
+# for item in generator_2:
+#     print item
+# [2]
 for i in range(5):
     print generator_2.next()
     pass

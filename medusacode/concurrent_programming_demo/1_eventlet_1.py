@@ -28,5 +28,24 @@ urls = [
 def work(url):
     return socket.gethostbyname(url)
 
-pool = eventlet.GreenPool()
-print [ret for ret in pool.imap(work, urls)]
+"""
+eventlet.spawn(func, *args, **kw)
+    This launches a greenthread to call func.
+    Spawning off multiple greenthreads gets work done in parallel.
+    The return value from spawn is a greenthread.GreenThread object,
+    which can be used to retrieve the return value of func.
+
+GreenThread.wait()
+    Returns the result of the main function of this GreenThread.
+    If the result is a normal return value, wait() returns it.
+    If it raised an exception, wait() will raise the same exception
+        (though the stack trace will unavoidably contain some frames from within the greenthread module).
+"""
+jobs = [eventlet.spawn(socket.gethostbyname, url) for url in urls]
+print jobs
+# [<eventlet.greenthread.GreenThread object at 0x10c760e10>,
+#  <eventlet.greenthread.GreenThread object at 0x10c760eb0>,
+#  <eventlet.greenthread.GreenThread object at 0x10c760f50>]
+
+print [job.wait() for job in jobs]
+# ['61.135.169.125', '106.120.188.39', '111.206.81.174']

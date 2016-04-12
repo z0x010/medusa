@@ -28,9 +28,6 @@ gevent 是第三方库，通过 greenlet 实现协程，其基本思想是：
 由于切换是在IO操作时自动完成，所以 gevent 需要修改 Python 自带的一些标准库，这一过程在启动时通过 monkey patch 完成。
 """
 
-# from gevent import monkey
-# monkey.patch_socket()
-
 import gevent
 from gevent import socket
 
@@ -40,10 +37,44 @@ urls = [
     'www.so.com',
 ]
 
-# The gevent.socket.gethostbyname() function has the same interface as the standard socket.gethostbyname()
-# but it does not block the whole interpreter and thus lets the other greenlets proceed with their requests unhindered.
+"""
+gevent.spawn(function, *args, **kwargs)
+    Create a new Greenlet object and schedule it to run function(*args, **kwargs).
+    This can be used as gevent.spawn or Greenlet.spawn.
+    The arguments are passed to Greenlet.__init__().
+
+gevent.joinall(greenlets, timeout=None, raise_error=False, count=None)
+    Wait for the greenlets to finish.
+    Parameters:
+        greenlets – A sequence (supporting len()) of greenlets to wait for.
+        timeout (float) – If given, the maximum number of seconds to wait.
+    Returns:
+        A sequence of the greenlets that finished before the timeout (if any) expired.
+
+Greenlet.value
+    Holds the value returned by the function if the greenlet has finished successfully.
+    Until then, or if it finished in error, None.
+"""
+
+"""
+The gevent.socket.gethostbyname() function has the same interface as the standard socket.gethostbyname()
+but it does not block the whole interpreter and thus lets the other greenlets proceed with their requests unhindered.
+"""
 jobs = [gevent.spawn(socket.gethostbyname, url) for url in urls]
-# After the jobs have been spawned, gevent.joinall() waits for them to complete, allowing up to (timeout) seconds.
-gevent.joinall(jobs, timeout=3)
-# The results are then collected by checking the value property.
+print jobs
+# [<Greenlet at 0x104d5fcd0: gethostbyname('www.baidu.com')>,
+#  <Greenlet at 0x104d5f9b0: gethostbyname('www.sogou.com')>,
+#  <Greenlet at 0x104d5fd70: gethostbyname('www.so.com')>]
+"""
+After the jobs have been spawned, gevent.joinall() waits for them to complete, allowing up to (timeout) seconds.
+"""
+greenlets = gevent.joinall(jobs, timeout=3)
+print greenlets
+# [<Greenlet at 0x104d5fcd0: gethostbyname('www.baidu.com')>,
+#  <Greenlet at 0x104d5f9b0: gethostbyname('www.sogou.com')>,
+#  <Greenlet at 0x104d5fd70: gethostbyname('www.so.com')>]
+"""
+The results are then collected by checking the value property.
+"""
 print [job.value for job in jobs]
+# ['61.135.169.125', '123.126.113.46', '111.206.81.174']

@@ -30,6 +30,7 @@ DATABASES = {
     }
 }
 
+
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django_redis.cache.RedisCache',
@@ -39,6 +40,7 @@ DATABASES = {
 #         }
 #     }
 # }
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.3/ref/settings/#allowed-hosts

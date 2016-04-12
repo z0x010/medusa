@@ -211,3 +211,31 @@ class RedisView(View):
         print '>>>>>>>>>> StrictRedis(Singleton)'
         ret = 'redis_client_id: %s' % id(redis_db)
         return HttpResponse(ret)
+
+
+
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+class PageCacheView(View):
+    """
+    Django Cache (PageCache)
+    """
+    @method_decorator(cache_page(3))
+    def get(self, request, *args, **kwargs):
+        ret = random.random()
+        return HttpResponse(ret)
+
+
+from django.core.cache import get_cache
+class CustomCacheView(View):
+    """
+    Django Cache (CustomCache)
+    """
+    def get(self, request, *args, **kwargs):
+        cache = get_cache('default')
+        ret = cache.get('rand')
+        if not ret:
+            ret = random.random()
+            cache.set('rand', ret, 3)
+        return HttpResponse(ret)

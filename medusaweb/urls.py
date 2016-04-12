@@ -33,4 +33,7 @@ urlpatterns += patterns(
     url(r'^es/search/$', views.ES_Search.as_view(), name='es_search'),
     # Redis (singleton)
     url(r'^redis/$', views.RedisView.as_view(), name='redis'),
+    # Django Cache
+    url(r'^cache/page/$', views.PageCacheView.as_view(), name='page_cache'),
+    url(r'^cache/custom/$', views.CustomCacheView.as_view(), name='custom_cache'),
 )

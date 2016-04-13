@@ -223,8 +223,9 @@ class PageCacheView(View):
     """
     @method_decorator(cache_page(3))
     def get(self, request, *args, **kwargs):
-        ret = random.random()
-        return HttpResponse(ret)
+        ret_cache = '[cache_time:%s][rand:%s]' % (datetime.datetime.now(), random.random())
+        response = '[now_time:%s]' % datetime.datetime.now(), ret_cache
+        return HttpResponse(response)
 
 
 from django.core.cache import get_cache
@@ -234,8 +235,9 @@ class CustomCacheView(View):
     """
     def get(self, request, *args, **kwargs):
         cache = get_cache('default')
-        ret = cache.get('rand')
-        if not ret:
-            ret = random.random()
-            cache.set('rand', ret, 3)
-        return HttpResponse(ret)
+        ret_cache = cache.get('rand')
+        if not ret_cache:
+            ret_cache = '[cache_time:%s][rand:%s]' % (datetime.datetime.now(), random.random())
+            cache.set('rand', ret_cache, 3)
+        response = '[now_time:%s]' % datetime.datetime.now(), ret_cache
+        return HttpResponse(response)

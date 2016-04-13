@@ -217,6 +217,8 @@ class RedisView(View):
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.core.cache import get_cache
+
 class PageCacheView(View):
     """
     Django Cache (PageCache)
@@ -227,14 +229,18 @@ class PageCacheView(View):
         response = '[now_time:%s]' % datetime.datetime.now(), ret_cache
         return HttpResponse(response)
 
-
-from django.core.cache import get_cache
 class CustomCacheView(View):
     """
     Django Cache (CustomCache)
     """
     def get(self, request, *args, **kwargs):
         cache = get_cache('default')
+        print '>>>>>>>>>> cache.servers'
+        print cache.servers  # ['redis://192.168.100.100:6379']
+        print '>>>>>>>>>> cache.servers'
+        print '>>>>>>>>>> cache.clients'
+        print cache.clients  # {('192.168.100.100', 6379, 1, ''): Redis<ConnectionPool<Connection<host=192.168.100.100,port=6379,db=1>>>}
+        print '>>>>>>>>>> cache.clients'
         ret_cache = cache.get('rand')
         if not ret_cache:
             ret_cache = '[cache_time:%s][rand:%s]' % (datetime.datetime.now(), random.random())

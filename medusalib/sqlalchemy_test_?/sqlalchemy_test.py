@@ -61,6 +61,62 @@ Base.metadata.create_all(engine)
 # Indexes:
 #     "users_pkey" PRIMARY KEY, btree (id)
 print '----------------------------------------------------------------------------------------------------'
+"""
+Create an Instance of the Mapped Class
+"""
+
+my_user = User(name='bruce', fullname='Bruce Wayne', password='batman')
 print '----------------------------------------------------------------------------------------------------'
+"""
+Creating a Session
+"""
+
+from sqlalchemy.orm import sessionmaker
+
+session_maker = sessionmaker(bind=engine)
+print session_maker
+# sessionmaker(
+#     class_='Session',
+#     autoflush=True,
+#     bind=Engine(postgresql://postgres:***@192.168.100.100:5432/sqlalchemy),
+#     autocommit=False,
+#     expire_on_commit=True,
+# )
+session = session_maker()
+print session
+# <sqlalchemy.orm.session.Session object at 0x106366ad0>
 print '----------------------------------------------------------------------------------------------------'
+"""
+Adding and Updating Objects
+"""
+
+session.add(my_user)
+session.commit()
+# BEGIN (implicit)
+# INSERT INTO users (id, name, fullname, password) VALUES (nextval('user_id_seq'), %(name)s, %(fullname)s, %(password)s) RETURNING users.id
+# {'fullname': 'Bruce Wayne', 'password': 'batman', 'name': 'bruce'}
+# COMMIT
+print '----------------------------------------------------------------------------------------------------'
+"""
+Rolling Back
+"""
+
+ex_user = User(name='clark', fullname='Clark Kent', password='superman')
+session.add(ex_user)
+session.rollback()
+print '----------------------------------------------------------------------------------------------------'
+"""
+Querying
+"""
+
+users = session.query(User).order_by(User.id)
+for instance in users:
+    print instance
+
+# <User(name='bruce', fullname='Bruce Wayne', password='batman')>
+# <User(name='clark', fullname='Clark Kent', password='superman')>
+print '----------------------------------------------------------------------------------------------------'
+"""
+Querying (?)
+"""
 print '----------------------------------------------------------------------------------------------------'

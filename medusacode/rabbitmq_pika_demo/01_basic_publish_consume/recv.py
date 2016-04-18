@@ -29,7 +29,7 @@ print qd  # <METHOD(['channel_number=1', 'frame_type=1', "method=<Queue.DeclareO
 print '----------------------------------------------------------------------------------------------------'
 
 def callback(ch, method, properties, body):
-    print("[x] Received: %s" % body)
+    print('[x] Received: %s' % body)
 
 bc = channel.basic_consume(
     consumer_callback=callback,

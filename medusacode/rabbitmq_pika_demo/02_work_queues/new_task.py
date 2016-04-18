@@ -27,12 +27,18 @@ qd = channel.queue_declare(
 )
 print qd  # <METHOD(['channel_number=1', 'frame_type=1', "method=<Queue.DeclareOk(['consumer_count=0', 'message_count=0', 'queue=queue_test'])>"])>
 print '----------------------------------------------------------------------------------------------------'
-message = datetime.datetime.now()
+import random
+
+message = random.randint(1, 5)
+message = str(message)
 
 bp = channel.basic_publish(
     exchange='',
     routing_key=QUEUE_NAME,
-    body='hello rabbitmq: %s' % message
+    body=message,
+    properties=pika.BasicProperties(
+        delivery_mode=2,
+    )
 )
 print bp  # True
 print '[x] Sent: %s' % message

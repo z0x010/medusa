@@ -3,6 +3,7 @@
 
 import pika
 import datetime
+import time
 
 HOST = '192.168.100.100'
 PORT = 5672
@@ -27,15 +28,23 @@ qd = channel.queue_declare(
 )
 print qd  # <METHOD(['channel_number=1', 'frame_type=1', "method=<Queue.DeclareOk(['consumer_count=0', 'message_count=0', 'queue=queue_test'])>"])>
 print '----------------------------------------------------------------------------------------------------'
-message = datetime.datetime.now()
 
-bp = channel.basic_publish(
-    exchange='',
-    routing_key=QUEUE_NAME,
-    body='hello rabbitmq: %s' % message
+def callback(ch, method, properties, body):
+    print('[x] Received: %s' % body)
+    for n in range(int(body)):
+        time.sleep(1)
+        print '%s .' % n
+    print '[x] Done'
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+bc = channel.basic_consume(
+    consumer_callback=callback,
+    queue=QUEUE_NAME,
+    no_ack=True,
 )
-print bp  # True
-print '[x] Sent: %s' % message
+print type(bc)  # ctag1.fa8ca67b0eb341f89b8dba5e0e6f6ac8
+print bc  # ctag1.da4a9beaf58b426aabdbefe390157bbf
 
-connection.close()
+print('[*] Waiting for messages. To exit press CTRL+C')
+channel.start_consuming()
 print '----------------------------------------------------------------------------------------------------'

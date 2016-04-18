@@ -51,12 +51,23 @@ def callback(ch, method, properties, body):
     print '[x] Done'
     ch.basic_ack(delivery_tag=method.delivery_tag)  # An ack(nowledgement) is sent back from the consumer to tell the broker(RabbitMQ)
 
+"""
+Use the basic.qos method with the prefetch_count=1 setting.
+This tells RabbitMQ not to give more than one message to a worker at a time.
+Or, in other words, don't dispatch a new message to a worker until it has processed and acknowledged the previous one.
+Instead, it will dispatch it to the next worker that is not still busy.
+"""
+channel.basic_qos(
+    prefetch_count=1,
+    all_channels=False,
+)
+
 bc = channel.basic_consume(
     consumer_callback=callback,
     queue=QUEUE_NAME,
-    no_ack=False,  # Tell the broker to expect a response
+    no_ack=False,  # Tell the broker to expect an acknowledgement
 )
-print type(bc)  # ctag1.fa8ca67b0eb341f89b8dba5e0e6f6ac8
+print type(bc)  # <type 'str'>
 print bc  # ctag1.da4a9beaf58b426aabdbefe390157bbf
 
 print('[*] Waiting for messages. To exit press CTRL+C')

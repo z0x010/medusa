@@ -36,7 +36,7 @@ bc = channel.basic_consume(
     queue=QUEUE_NAME,
     no_ack=True,
 )
-print type(bc)  # ctag1.fa8ca67b0eb341f89b8dba5e0e6f6ac8
+print type(bc)  # <type 'str'>
 print bc  # ctag1.da4a9beaf58b426aabdbefe390157bbf
 
 print('[*] Waiting for messages. To exit press CTRL+C')

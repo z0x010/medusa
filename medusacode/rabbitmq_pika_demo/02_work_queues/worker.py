@@ -30,6 +30,19 @@ qd = channel.queue_declare(
 print qd  # <METHOD(['channel_number=1', 'frame_type=1', "method=<Queue.DeclareOk(['consumer_count=0', 'message_count=0', 'queue=queue_test'])>"])>
 print '----------------------------------------------------------------------------------------------------'
 """
+Use the basic.qos method with the prefetch_count=1 setting.
+This tells RabbitMQ not to give more than one message to a worker at a time.
+Or, in other words, don't dispatch a new message to a worker until it has processed and acknowledged the previous one.
+Instead, it will dispatch it to the next worker that is not still busy.
+"""
+
+bqos = channel.basic_qos(
+    prefetch_count=1,
+    all_channels=False,
+)
+print bqos  # None
+print '----------------------------------------------------------------------------------------------------'
+"""
 In order to make sure a message is never lost, RabbitMQ supports message acknowledgments.
 An ack(nowledgement) is sent back from the consumer to tell RabbitMQ
 that a particular message had been received, processed and that RabbitMQ is free to delete it.
@@ -50,17 +63,6 @@ def callback(ch, method, properties, body):
         print '[*] work: %s %s' % (n+1, '.' * (n+1))
     print '[x] Done'
     ch.basic_ack(delivery_tag=method.delivery_tag)  # An ack(nowledgement) is sent back from the consumer to tell the broker(RabbitMQ)
-
-"""
-Use the basic.qos method with the prefetch_count=1 setting.
-This tells RabbitMQ not to give more than one message to a worker at a time.
-Or, in other words, don't dispatch a new message to a worker until it has processed and acknowledged the previous one.
-Instead, it will dispatch it to the next worker that is not still busy.
-"""
-channel.basic_qos(
-    prefetch_count=1,
-    all_channels=False,
-)
 
 bc = channel.basic_consume(
     consumer_callback=callback,
